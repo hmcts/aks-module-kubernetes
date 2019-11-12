@@ -1,0 +1,8 @@
+# Compiled files
+*.tfstate
+*.tfstate.backup
+.jenkins/*
+.kitchen/
+.kitchen.local.yml
+*.swp
+*.iml
