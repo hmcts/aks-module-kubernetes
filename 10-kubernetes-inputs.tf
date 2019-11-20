@@ -35,7 +35,7 @@ variable "kubernetes_cluster_http_application_routing" {
 }
 
 variable "kubernetes_cluster_version" {
-  default = "1.14.6"
+  default = "1.14.8"
 }
 
 variable "kubernetes_cluster_network_plugin" {
