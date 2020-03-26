@@ -1,9 +1,9 @@
 data "null_data_source" "kubernetes_cluster_outputs" {
   inputs = {
-    kubernetes_cluster_resource_group      = "${var.resource_group_name}"
-    kubernetes_cluster_id                  = "${azurerm_kubernetes_cluster.kubernetes_cluster.id}"
-    kubernetes_cluster_fqdn                = "${azurerm_kubernetes_cluster.kubernetes_cluster.fqdn}"
-    kubernetes_cluster_node_resource_group = "${azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group}"
+    kubernetes_cluster_resource_group      = var.resource_group_name
+    kubernetes_cluster_id                  = azurerm_kubernetes_cluster.kubernetes_cluster.id
+    kubernetes_cluster_fqdn                = azurerm_kubernetes_cluster.kubernetes_cluster.fqdn
+    kubernetes_cluster_node_resource_group = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
 
     // may not be needed
 
@@ -18,9 +18,9 @@ data "null_data_source" "kubernetes_cluster_outputs" {
 }
 
 output "kubernetes_cluster_result" {
-  value = "${data.null_data_source.kubernetes_cluster_outputs.inputs}"
+  value = data.null_data_source.kubernetes_cluster_outputs.inputs
 }
 
 output "kubernetes_cluster_result_json" {
-  value = "${jsonencode(data.null_data_source.kubernetes_cluster_outputs.inputs)}"
+  value = jsonencode(data.null_data_source.kubernetes_cluster_outputs.inputs)
 }
