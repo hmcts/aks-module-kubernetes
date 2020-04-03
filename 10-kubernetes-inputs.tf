@@ -47,7 +47,7 @@ variable "kubernetes_cluster_http_application_routing" {
 }
 
 variable "kubernetes_cluster_enable_auto_scaling" {
-  default = true
+  default = false
 }
 
 variable "kubernetes_cluster_kube_dashboard_enabled" {

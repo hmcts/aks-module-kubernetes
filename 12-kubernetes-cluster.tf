@@ -14,8 +14,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   default_node_pool {
     name = format("%s%spool",
-      var.service_name_prefix,
-      lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+                var.service_name_prefix,
+                lookup(data.null_data_source.tag_defaults.inputs, "Environment")
     )
     vm_size             = var.kubernetes_cluster_agent_vm_size
     enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
@@ -94,21 +94,14 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 }
 
 // may not be needed
-
-
 // resource "local_file" "local_file" {
 //   content = "${azurerm_kubernetes_cluster.kubernetes_cluster.kube_config_raw}"
-
-
 //   filename = "${path.module}/.kube/${format("%s_%s_%s_kubeconfig",
 //               var.service_name_prefix,
 //               var.service_shortname,
 //               lookup(data.null_data_source.tag_defaults.inputs, "Environment")
 //   )}"
-
-
 //   depends_on = [
 //     "azurerm_kubernetes_cluster.kubernetes_cluster",
 //   ]
 // }
-

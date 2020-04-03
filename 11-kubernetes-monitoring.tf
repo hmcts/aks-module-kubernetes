@@ -3,10 +3,11 @@
 #--------------------------------------------------------------
 
 resource "azurerm_log_analytics_workspace" "log_analytics_workspace" {
-  name = format("%s-%s-%s-law",
+  name = format(
+    "%s-%s-%s-law",
     var.service_name_prefix,
     var.service_shortname,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+    data.null_data_source.tag_defaults.inputs["Environment"],
   )
 
   location            = var.location
@@ -27,3 +28,4 @@ resource "azurerm_log_analytics_solution" "log_analytics_solution" {
     product   = var.kubernetes_cluster_log_analytics_solution_product
   }
 }
+
