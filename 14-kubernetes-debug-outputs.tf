@@ -15,7 +15,6 @@ data "null_data_source" "kubernetes_cluster_debug_outputs" {
     kubernetes_cluster_ssh_key        = var.kubernetes_cluster_ssh_key
     kubernetes_cluster_client_id      = var.kubernetes_cluster_client_id
     kubernetes_cluster_client_secret  = var.kubernetes_cluster_client_secret
-
     # inputs-default
     enable_debug = var.enable_debug
   }
@@ -24,3 +23,4 @@ data "null_data_source" "kubernetes_cluster_debug_outputs" {
 output "kubernetes_cluster_debug_config" {
   value = data.null_data_source.kubernetes_cluster_debug_outputs.*.inputs
 }
+
