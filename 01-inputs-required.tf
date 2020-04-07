@@ -1,4 +1,4 @@
-variable "devops_key_vault" {}
+variable "hmcts_access_vault" {}
 
 variable "deploy_environment" {}
 variable "network_name" {}

@@ -63,27 +63,27 @@ data "azurerm_subnet" "application_gateway" {
   resource_group_name  = var.network_resource_group_name
 }
 
-data "azurerm_key_vault" "devops_key_vault" {
-  name                = var.devops_key_vault
+data "azurerm_key_vault" "hmcts_access_vault" {
+  name                = var.hmcts_access_vault
   resource_group_name = "genesis_resource_group"
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_client_app_id" {
   name         = "kubernetes-aad-client-app-id"
-  key_vault_id = data.azurerm_key_vault.devops_key_vault.id
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_tenant_id" {
   name         = "kubernetes-aad-tenant-id"
-  key_vault_id = data.azurerm_key_vault.devops_key_vault.id
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_server_app_id" {
   name         = "kubernetes-aad-server-app-id"
-  key_vault_id = data.azurerm_key_vault.devops_key_vault.id
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_server_app_secret" {
   name         = "kubernetes-aad-server-app-secret"
-  key_vault_id = data.azurerm_key_vault.devops_key_vault.id
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
