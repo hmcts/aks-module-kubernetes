@@ -65,7 +65,7 @@ data "azurerm_subnet" "application_gateway" {
 
 data "azurerm_key_vault" "hmcts_access_vault" {
   name                = var.hmcts_access_vault
-  resource_group_name = "genesis_resource_group"
+  resource_group_name = "azure-control-${var.deploy_environment}-rg"
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_client_app_id" {
