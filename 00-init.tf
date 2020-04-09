@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "azurerm" {
-  alias = "hmtcs-control"
+  alias = "hmcts-control"
   skip_provider_registration = "true"
   version         = ">= 1.44.0"
   features {}
