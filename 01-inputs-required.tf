@@ -1,5 +1,4 @@
 variable "hmcts_access_vault" {}
-variable "provider_name" {}
 
 variable "deploy_environment" {}
 variable "network_name" {}

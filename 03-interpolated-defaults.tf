@@ -64,31 +64,31 @@ data "azurerm_subnet" "application_gateway" {
 }
 
 data "azurerm_key_vault" "hmcts_access_vault" {
-  provider            = var.provider_name
+  provider            = azurerm.hmcts-control
   name                = var.hmcts_access_vault
   resource_group_name = "azure-control-${var.deploy_environment}-rg"
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_client_app_id" {
-  provider            = var.provider_name
+  provider            = azurerm.hmcts-control
   name         = "kubernetes-aad-client-app-id"
   key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_tenant_id" {
-  provider            = var.provider_name
+  provider            = azurerm.hmcts-control
   name         = "kubernetes-aad-tenant-id"
   key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_server_app_id" {
-  provider            = var.provider_name
+  provider            = azurerm.hmcts-control
   name         = "kubernetes-aad-server-app-id"
   key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_server_app_secret" {
-  provider            = var.provider_name
+  provider            = azurerm.hmcts-control
   name         = "kubernetes-aad-server-app-secret"
   key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
