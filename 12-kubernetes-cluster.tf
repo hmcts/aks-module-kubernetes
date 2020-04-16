@@ -91,6 +91,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       )
     )
   )
+  lifecycle {
+    ignore_changes = [windows_profile]
+  }
 }
 
 // may not be needed
