@@ -71,24 +71,18 @@ data "azurerm_key_vault" "hmcts_access_vault" {
 
 data "azurerm_key_vault_secret" "kubernetes_aad_client_app_id" {
   provider            = azurerm.hmcts-control
-  name                = "${var.keyvault_service_name}-client-application-id"
+  name                = "${var.service_shortname}-client-application-id"
   key_vault_id        = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
-# data "azurerm_key_vault_secret" "kubernetes_aad_tenant_id" {
-#   provider            = azurerm.hmcts-control
-#   name                = "${var.keyvault_service_name}-tenant-id"
-#   key_vault_id        = data.azurerm_key_vault.hmcts_access_vault.id
-# }
-
 data "azurerm_key_vault_secret" "kubernetes_aad_server_app_id" {
   provider            = azurerm.hmcts-control
-  name                = "${var.keyvault_service_name}-server-application-id"
+  name                = "${var.service_shortname}-server-application-id"
   key_vault_id        = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "kubernetes_aad_server_app_secret" {
   provider            = azurerm.hmcts-control
-  name                = "${var.keyvault_service_name}-server-token"
+  name                = "${var.service_shortname}-server-token"
   key_vault_id        = data.azurerm_key_vault.hmcts_access_vault.id
 }
