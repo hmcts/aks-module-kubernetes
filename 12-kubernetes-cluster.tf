@@ -71,7 +71,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
     azure_active_directory {
       client_app_id     = data.azurerm_key_vault_secret.kubernetes_aad_client_app_id.value
-      tenant_id         = data.azurerm_key_vault_secret.kubernetes_aad_tenant_id.value
+      tenant_id         = data.azurerm_client_config.current.tenant_id
       server_app_id     = data.azurerm_key_vault_secret.kubernetes_aad_server_app_id.value
       server_app_secret = data.azurerm_key_vault_secret.kubernetes_aad_server_app_secret.value
     }
