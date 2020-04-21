@@ -1,4 +1,5 @@
 variable "hmcts_access_vault" {}
+variable "keyvault_service_name" {}
 
 variable "deploy_environment" {}
 variable "network_name" {}
@@ -7,6 +8,7 @@ variable "network_resource_group_name" {}
 
 variable "service_shortname" {}
 variable "service_name_prefix" {}
+
 
 variable "resource_group_name" {}
 variable "location" {}
