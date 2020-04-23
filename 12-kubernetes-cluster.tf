@@ -22,7 +22,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     max_pods            = var.kubernetes_cluster_agent_max_pods
     os_disk_size_gb     = var.kubernetes_cluster_agent_os_disk_size
     type                = var.kubernetes_cluster_agent_type
-    vnet_subnet_id      = data.azurerm_subnet.public.id
+    vnet_subnet_id      = data.azurerm_subnet.aks_00.id
     max_count           = var.kubernetes_cluster_agent_max_count
     min_count           = var.kubernetes_cluster_agent_min_count
     node_count          = var.kubernetes_cluster_agent_count

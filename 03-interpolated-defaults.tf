@@ -23,7 +23,7 @@ locals {
   slug_location = lower(replace(var.location, " ", "."))
 }
 
-data "azurerm_subnet" "aks_00_subnet" {
+data "azurerm_subnet" "aks_00" {
   name = format("%s_aks_00_%s",
     var.network_shortname,
     var.deploy_environment
@@ -33,7 +33,7 @@ data "azurerm_subnet" "aks_00_subnet" {
   resource_group_name  = var.network_resource_group_name
 }
 
-data "azurerm_subnet" "aks_01_subnet" {
+data "azurerm_subnet" "aks_01" {
   name = format("%s_aks_01_%s",
     var.network_shortname,
     var.deploy_environment
@@ -43,7 +43,7 @@ data "azurerm_subnet" "aks_01_subnet" {
   resource_group_name  = var.network_resource_group_name
 }
 
-data "azurerm_subnet" "iaas_subnet" {
+data "azurerm_subnet" "iaas" {
   name = format("%s_iaas_%s",
     var.network_shortname,
     var.deploy_environment
