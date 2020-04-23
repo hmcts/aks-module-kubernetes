@@ -33,7 +33,7 @@ data "azurerm_subnet" "aks_00_subnet" {
   resource_group_name  = var.network_resource_group_name
 }
 
-data "azurerm_subnet" "aks_00_subnet" {
+data "azurerm_subnet" "aks_01_subnet" {
   name = format("%s_aks_01_%s",
     var.network_shortname,
     var.deploy_environment
