@@ -28,6 +28,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     node_count          = var.kubernetes_cluster_agent_count
   }
 
+  identity {
+    type = var.kubernetes_cluster_identity_type
+  }
+
+
   dns_prefix = format("k8s-%s-%s-%s",
     var.service_name_prefix,
     var.service_shortname,
