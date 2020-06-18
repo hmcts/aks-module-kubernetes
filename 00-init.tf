@@ -1,11 +1,11 @@
 terraform {
-  required_version = ">= 0.12.0"
+  required_version = "= 0.12.14"
 }
 
 provider "azurerm" {
   alias = "hmcts-control"
   skip_provider_registration = "true"
-  version         = ">= 2.4.0"
+  version         = "= 2.4.0"
   features {}
   subscription_id = "04d27a32-7a07-48b3-95b8-3c8691e1a263"
 }
