@@ -62,6 +62,10 @@ variable "kubernetes_cluster_network_plugin" {
   default = "azure"
 }
 
+variable "kubernetes_cluster_network_policy" {
+  default = "azure"
+}
+
 variable "kubernetes_cluster_agent_type" {
   default = "VirtualMachineScaleSets"
 }
