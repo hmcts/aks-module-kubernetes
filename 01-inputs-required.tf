@@ -5,6 +5,7 @@ variable "network_name" {}
 variable "network_shortname" {}
 variable "network_resource_group_name" {}
 
+variable "cluster_number" {}
 variable "service_shortname" {}
 variable "service_name_prefix" {}
 

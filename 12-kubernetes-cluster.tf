@@ -6,16 +6,15 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  name = format("%s_%s_%s",
+  name = format("%s_%s_%s_%s",
     var.service_name_prefix,
     var.service_shortname,
+    var.cluster_number,
     lookup(data.null_data_source.tag_defaults.inputs, "Environment")
   )
 
   default_node_pool {
-    name = format("%s%spool",
-                var.service_name_prefix,
-                lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+    name = nodepool
     )
     vm_size             = var.kubernetes_cluster_agent_vm_size
     enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
@@ -28,11 +27,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     node_count          = var.kubernetes_cluster_agent_count
   }
 
-  dns_prefix = format("k8s-%s-%s-%s",
-    var.service_name_prefix,
-    var.service_shortname,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment")
-  )
+  # dns_prefix = format("k8s-%s-%s-%s",
+  #   var.service_name_prefix,
+  #   var.service_shortname,
+  #   lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+  # )
 
   service_principal {
     client_id     = var.kubernetes_cluster_client_id
