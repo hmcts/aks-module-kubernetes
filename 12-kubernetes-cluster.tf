@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   addon_profile {
     oms_agent {
       enabled                    = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+      log_analytics_workspace_id = data.azurerm_log_analytics_workspace.ss-law.id
     }
 
     kube_dashboard {

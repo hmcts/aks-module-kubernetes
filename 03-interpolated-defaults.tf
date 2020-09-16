@@ -23,6 +23,19 @@ locals {
   slug_location = lower(replace(var.location, " ", "."))
 }
 
+data "azurerm_log_analytics_workspace" "ss-law" {
+  name = format(
+    "%s-%s-law",
+    var.service_name_prefix,
+    data.null_data_source.tag_defaults.inputs["Environment"],
+  )
+
+  resource_group_name  = format("%s_%s_monitoring",
+    var.service_name_prefix,
+    lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+  )
+}
+
 data "azurerm_subnet" "aks_00" {
   name = format("%s_aks_00_%s",
     var.network_shortname,
