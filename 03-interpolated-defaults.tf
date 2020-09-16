@@ -27,12 +27,12 @@ data "azurerm_log_analytics_workspace" "ss-law" {
   name = format(
     "%s-%s-law",
     var.service_name_prefix,
-    data.null_data_source.tag_defaults.inputs["Environment"],
+    var.deploy_environment
   )
 
   resource_group_name  = format("%s_%s_monitoring",
     var.service_name_prefix,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+    var.deploy_environment
   )
 }
 
