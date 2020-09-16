@@ -36,7 +36,7 @@ data "azurerm_log_analytics_workspace" "ss-law" {
 }
 
 data "azurerm_subnet" "aks_00" {
-  name = format("%s_aks_00_%s",
+  name = format("%s_00_%s",
     var.network_shortname,
     var.deploy_environment
   )
@@ -46,7 +46,7 @@ data "azurerm_subnet" "aks_00" {
 }
 
 data "azurerm_subnet" "aks_01" {
-  name = format("%s_aks_01_%s",
+  name = format("%s_01_%s",
     var.network_shortname,
     var.deploy_environment
   )
