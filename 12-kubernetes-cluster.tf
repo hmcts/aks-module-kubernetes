@@ -15,7 +15,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   default_node_pool {
     name = nodepool
-    )
     vm_size             = var.kubernetes_cluster_agent_vm_size
     enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
     max_pods            = var.kubernetes_cluster_agent_max_pods
