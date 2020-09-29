@@ -35,9 +35,10 @@ data "azurerm_log_analytics_workspace" "ss-law" {
   )
 }
 
-data "azurerm_subnet" "aks_00" {
-  name = format("%s_00_%s",
+data "azurerm_subnet" "aks" {
+  name = format("%s_%s_%s",
     var.network_shortname,
+    var.cluster_number,
     var.deploy_environment
   )
 
