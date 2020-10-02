@@ -6,7 +6,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  name = format("%s_%s_%s_%s",
+  name = format("%s-%s-%s-%s",
     var.service_name_prefix,
     var.service_shortname,
     var.cluster_number,
