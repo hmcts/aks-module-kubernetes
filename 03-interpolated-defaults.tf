@@ -24,12 +24,12 @@ locals {
 }
 
 data "azurerm_log_analytics_workspace" "ss-law" {
-  name = format("%s-%s-law",
+  name = format("%s_%s_law",
     var.service_name_prefix,
     var.deploy_environment
   )
 
-  resource_group_name  = format("%s_%s_monitoring",
+  resource_group_name  = format("%s_%s_monitoring_rg",
     var.service_name_prefix,
     var.deploy_environment
   )
