@@ -13,7 +13,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     lookup(data.null_data_source.tag_defaults.inputs, "Environment")
   )
 
-  node_resource_group = format("MC_%s_%s_%s_%s_rg",
+  node_resource_group = format("MC-%s-%-%s-%s-rg",
     var.service_name_prefix,
     var.service_shortname,
     var.cluster_number,
