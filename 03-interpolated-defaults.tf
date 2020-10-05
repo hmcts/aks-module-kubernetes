@@ -37,7 +37,7 @@ data "azurerm_log_analytics_workspace" "ss-law" {
 
 data "azurerm_subnet" "aks" {
   name = format("%s-%s",
-    var.network_shortname,
+    var.service_shortname,
     var.cluster_number
   )
 
