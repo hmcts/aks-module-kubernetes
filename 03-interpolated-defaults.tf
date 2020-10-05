@@ -29,52 +29,51 @@ data "azurerm_log_analytics_workspace" "ss-law" {
     var.deploy_environment
   )
 
-  resource_group_name  = format("%s_%s_monitoring_rg",
+  resource_group_name  = format("%s-%s-monitoring-rg",
     var.service_name_prefix,
     var.deploy_environment
   )
 }
 
 data "azurerm_subnet" "aks" {
-  name = format("%s_%s_%s",
+  name = format("%s-%s",
     var.network_shortname,
-    var.cluster_number,
-    var.deploy_environment
+    var.cluster_number
   )
 
   virtual_network_name = var.network_name
   resource_group_name  = var.network_resource_group_name
 }
 
-data "azurerm_subnet" "aks_01" {
-  name = format("%s_01_%s",
-    var.network_shortname,
-    var.deploy_environment
-  )
+# data "azurerm_subnet" "aks_01" {
+#   name = format("%s_01_%s",
+#     var.network_shortname,
+#     var.deploy_environment
+#   )
 
-  virtual_network_name = var.network_name
-  resource_group_name  = var.network_resource_group_name
-}
+#   virtual_network_name = var.network_name
+#   resource_group_name  = var.network_resource_group_name
+# }
 
-data "azurerm_subnet" "iaas" {
-  name = format("%s_iaas_%s",
-    var.network_shortname,
-    var.deploy_environment
-  )
+# data "azurerm_subnet" "iaas" {
+#   name = format("%s_iaas_%s",
+#     var.network_shortname,
+#     var.deploy_environment
+#   )
 
-  virtual_network_name = var.network_name
-  resource_group_name  = var.network_resource_group_name
-}
+#   virtual_network_name = var.network_name
+#   resource_group_name  = var.network_resource_group_name
+# }
 
-data "azurerm_subnet" "application_gateway" {
-  name = format("%s_application_gateway_%s",
-    var.network_shortname,
-    var.deploy_environment
-  )
+# data "azurerm_subnet" "application_gateway" {
+#   name = format("%s_application_gateway_%s",
+#     var.network_shortname,
+#     var.deploy_environment
+#   )
 
-  virtual_network_name = var.network_name
-  resource_group_name  = var.network_resource_group_name
-}
+#   virtual_network_name = var.network_name
+#   resource_group_name  = var.network_resource_group_name
+# }
 
 data "azurerm_key_vault" "hmcts_access_vault" {
   provider            = azurerm.hmcts-control
