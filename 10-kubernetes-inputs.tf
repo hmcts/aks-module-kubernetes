@@ -2,10 +2,6 @@ variable "kubernetes_cluster_load_balancer_sku" {
   default = "standard"
 }
 
-variable "kubernetes_cluster_agent_count" {
-  default = 3
-}
-
 variable "kubernetes_cluster_agent_max_count" {
   default = 6
 }

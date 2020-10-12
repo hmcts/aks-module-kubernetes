@@ -30,7 +30,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     vnet_subnet_id      = data.azurerm_subnet.aks.id
     max_count           = var.kubernetes_cluster_agent_max_count
     min_count           = var.kubernetes_cluster_agent_min_count
-    node_count          = var.kubernetes_cluster_agent_count
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -100,16 +99,3 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     ignore_changes = [windows_profile]
   }
 }
-
-// may not be needed
-// resource "local_file" "local_file" {
-//   content = "${azurerm_kubernetes_cluster.kubernetes_cluster.kube_config_raw}"
-//   filename = "${path.module}/.kube/${format("%s_%s_%s_kubeconfig",
-//               var.service_name_prefix,
-//               var.service_shortname,
-//               lookup(data.null_data_source.tag_defaults.inputs, "Environment")
-//   )}"
-//   depends_on = [
-//     "azurerm_kubernetes_cluster.kubernetes_cluster",
-//   ]
-// }
