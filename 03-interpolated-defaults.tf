@@ -43,3 +43,15 @@ data "azurerm_subnet" "aks" {
   virtual_network_name = var.network_name
   resource_group_name  = var.network_resource_group_name
 }
+
+data "azurerm_key_vault" "hmcts_access_vault" {
+  provider            = azurerm.hmcts-control
+  name                = var.hmcts_access_vault
+  resource_group_name = "azure-control-${var.deploy_environment}-rg"
+}
+
+data "azurerm_key_vault_secret" "aks_admin_group_id" {
+  provider     = azurerm.hmcts-control
+  name         = "aks-admin-rbac-group-id"
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
+}

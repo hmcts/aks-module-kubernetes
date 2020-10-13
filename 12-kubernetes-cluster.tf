@@ -75,7 +75,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
     azure_active_directory {
       managed = true
-      admin_group_object_ids = var.cluster_admin_aad_object_ids
+      admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
     }
   }
 
