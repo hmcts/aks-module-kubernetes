@@ -1,21 +1,5 @@
-variable "kubernetes_cluster_log_analytics_workspace_sku" {
-  default = "Standard"
-}
-
 variable "kubernetes_cluster_load_balancer_sku" {
   default = "standard"
-}
-
-variable "kubernetes_cluster_log_analytics_solution_publisher" {
-  default = "Microsoft"
-}
-
-variable "kubernetes_cluster_log_analytics_solution_product" {
-  default = "OMSGallery/ContainerInsights"
-}
-
-variable "kubernetes_cluster_agent_count" {
-  default = 3
 }
 
 variable "kubernetes_cluster_agent_max_count" {
@@ -27,7 +11,7 @@ variable "kubernetes_cluster_agent_min_count" {
 }
 
 variable "kubernetes_cluster_agent_vm_size" {
-  default = "Standard_DS3_v2"
+  default = "Standard_D4s_v3"
 }
 
 variable "kubernetes_cluster_agent_max_pods" {
@@ -35,7 +19,7 @@ variable "kubernetes_cluster_agent_max_pods" {
 }
 
 variable "kubernetes_cluster_agent_os_disk_size" {
-  default = "30"
+  default = "128"
 }
 
 variable "kubernetes_cluster_agent_os_type" {
@@ -47,7 +31,7 @@ variable "kubernetes_cluster_http_application_routing" {
 }
 
 variable "kubernetes_cluster_enable_auto_scaling" {
-  default = false
+  default = true
 }
 
 variable "kubernetes_cluster_kube_dashboard_enabled" {
@@ -55,10 +39,14 @@ variable "kubernetes_cluster_kube_dashboard_enabled" {
 }
 
 variable "kubernetes_cluster_version" {
-  default = "1.15.7"
+  default = "1.17.9"
 }
 
 variable "kubernetes_cluster_network_plugin" {
+  default = "azure"
+}
+
+variable "kubernetes_cluster_network_policy" {
   default = "azure"
 }
 

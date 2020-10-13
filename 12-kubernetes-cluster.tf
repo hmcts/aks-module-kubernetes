@@ -6,32 +6,36 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  name = format("%s_%s_%s",
+  name = format("%s-%s-%s-%s",
     var.service_name_prefix,
-    var.service_shortname,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment")
+    lookup(data.null_data_source.tag_defaults.inputs, "Environment"),
+    var.cluster_number,
+    var.service_shortname
+  )
+
+  node_resource_group = format("%s-%s-%s-%s-node-rg",
+    var.service_name_prefix,
+    lookup(data.null_data_source.tag_defaults.inputs, "Environment"),
+    var.cluster_number,
+    var.service_shortname
   )
 
   default_node_pool {
-    name = format("%s%spool",
-                var.service_name_prefix,
-                lookup(data.null_data_source.tag_defaults.inputs, "Environment")
-    )
+    name                = "nodepool"
     vm_size             = var.kubernetes_cluster_agent_vm_size
     enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
     max_pods            = var.kubernetes_cluster_agent_max_pods
     os_disk_size_gb     = var.kubernetes_cluster_agent_os_disk_size
     type                = var.kubernetes_cluster_agent_type
-    vnet_subnet_id      = data.azurerm_subnet.public.id
+    vnet_subnet_id      = data.azurerm_subnet.aks.id
     max_count           = var.kubernetes_cluster_agent_max_count
     min_count           = var.kubernetes_cluster_agent_min_count
-    node_count          = var.kubernetes_cluster_agent_count
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
     var.service_name_prefix,
+    lookup(data.null_data_source.tag_defaults.inputs, "Environment"),
     var.service_shortname,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment")
   )
 
   service_principal {
@@ -42,7 +46,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   addon_profile {
     oms_agent {
       enabled                    = true
-      log_analytics_workspace_id = azurerm_log_analytics_workspace.log_analytics_workspace.id
+      log_analytics_workspace_id = data.azurerm_log_analytics_workspace.ss-law.id
     }
 
     kube_dashboard {
@@ -71,7 +75,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
     azure_active_directory {
       client_app_id     = data.azurerm_key_vault_secret.kubernetes_aad_client_app_id.value
-      tenant_id         = data.azurerm_key_vault_secret.kubernetes_aad_tenant_id.value
+      tenant_id         = data.azurerm_client_config.current.tenant_id
       server_app_id     = data.azurerm_key_vault_secret.kubernetes_aad_server_app_id.value
       server_app_secret = data.azurerm_key_vault_secret.kubernetes_aad_server_app_secret.value
     }
@@ -91,17 +95,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       )
     )
   )
+  lifecycle {
+    ignore_changes = [windows_profile]
+  }
 }
-
-// may not be needed
-// resource "local_file" "local_file" {
-//   content = "${azurerm_kubernetes_cluster.kubernetes_cluster.kube_config_raw}"
-//   filename = "${path.module}/.kube/${format("%s_%s_%s_kubeconfig",
-//               var.service_name_prefix,
-//               var.service_shortname,
-//               lookup(data.null_data_source.tag_defaults.inputs, "Environment")
-//   )}"
-//   depends_on = [
-//     "azurerm_kubernetes_cluster.kubernetes_cluster",
-//   ]
-// }
