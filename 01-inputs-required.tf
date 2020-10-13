@@ -17,6 +17,7 @@ variable "kubernetes_cluster_admin_username" {}
 variable "kubernetes_cluster_ssh_key" {}
 variable "kubernetes_cluster_client_id" {}
 variable "kubernetes_cluster_client_secret" {}
+variable "cluster_admin_aad_object_ids" {}
 
 # Tags
 variable "tag_project_name" {}

@@ -1,4 +1,3 @@
-data "azurerm_client_config" "current" {}
 data "azurerm_subscription" "subscription" {}
 
 data "azurerm_role_definition" "builtin_role_definition" {
@@ -43,28 +42,4 @@ data "azurerm_subnet" "aks" {
 
   virtual_network_name = var.network_name
   resource_group_name  = var.network_resource_group_name
-}
-
-data "azurerm_key_vault" "hmcts_access_vault" {
-  provider            = azurerm.hmcts-control
-  name                = var.hmcts_access_vault
-  resource_group_name = "azure-control-${var.deploy_environment}-rg"
-}
-
-data "azurerm_key_vault_secret" "kubernetes_aad_client_app_id" {
-  provider     = azurerm.hmcts-control
-  name         = "${var.service_shortname}-client-application-id"
-  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
-}
-
-data "azurerm_key_vault_secret" "kubernetes_aad_server_app_id" {
-  provider     = azurerm.hmcts-control
-  name         = "${var.service_shortname}-server-application-id"
-  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
-}
-
-data "azurerm_key_vault_secret" "kubernetes_aad_server_app_secret" {
-  provider     = azurerm.hmcts-control
-  name         = "${var.service_shortname}-server-token"
-  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
