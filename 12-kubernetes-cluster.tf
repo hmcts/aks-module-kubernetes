@@ -74,7 +74,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     enabled = var.kubernetes_cluster_rbac_enabled
 
     azure_active_directory {
-      managed = true
+      managed                = true
       admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
     }
   }
