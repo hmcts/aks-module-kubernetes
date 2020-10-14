@@ -5,4 +5,3 @@ terraform {
 provider "azurerm" {
   alias = "hmcts-control"
 }
-

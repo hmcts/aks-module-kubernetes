@@ -62,8 +62,6 @@ variable "kubernetes_cluster_rbac_enabled" {
   default = "true"
 }
 
-//variable "kubernetes_cluster_role_binding_groups" {
-//  type = map(string)
-//
-//  default = {}
-//}
+variable "global_aks_admins_group_object_id" {
+  default = "a6ce5b32-e0a5-419e-ba5c-67863c975941"
+}

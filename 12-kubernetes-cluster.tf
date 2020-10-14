@@ -74,10 +74,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     enabled = var.kubernetes_cluster_rbac_enabled
 
     azure_active_directory {
-      client_app_id     = data.azurerm_key_vault_secret.kubernetes_aad_client_app_id.value
-      tenant_id         = data.azurerm_client_config.current.tenant_id
-      server_app_id     = data.azurerm_key_vault_secret.kubernetes_aad_server_app_id.value
-      server_app_secret = data.azurerm_key_vault_secret.kubernetes_aad_server_app_secret.value
+      managed                = true
+      admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
     }
   }
 
