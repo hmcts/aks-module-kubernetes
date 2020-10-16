@@ -39,7 +39,7 @@ variable "kubernetes_cluster_kube_dashboard_enabled" {
 }
 
 variable "kubernetes_cluster_version" {
-  default = "1.17.9"
+  default = "1.18.8"
 }
 
 variable "kubernetes_cluster_network_plugin" {
