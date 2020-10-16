@@ -1,4 +1,4 @@
-variable "hmcts_access_vault" {}
+variable "control_vault" {}
 
 variable "environment" {}
 variable "network_name" {}

@@ -33,7 +33,7 @@ data "azurerm_subnet" "aks" {
 
 data "azurerm_key_vault" "hmcts_access_vault" {
   provider            = azurerm.hmcts-control
-  name                = var.hmcts_access_vault
+  name                = var.control_vault
   resource_group_name = "azure-control-${var.environment}-rg"
 }
 
