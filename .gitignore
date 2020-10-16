@@ -6,3 +6,4 @@
 .kitchen.local.yml
 *.swp
 *.iml
+*.idea
