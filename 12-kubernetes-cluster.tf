@@ -7,15 +7,15 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   resource_group_name = var.resource_group_name
 
   name = format("%s-%s-%s-%s",
-    var.service_name_prefix,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment"),
+    var.project,
+    var.environment,
     var.cluster_number,
     var.service_shortname
   )
 
   node_resource_group = format("%s-%s-%s-%s-node-rg",
-    var.service_name_prefix,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment"),
+    var.project,
+    var.environment,
     var.cluster_number,
     var.service_shortname
   )
@@ -33,8 +33,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
-    var.service_name_prefix,
-    lookup(data.null_data_source.tag_defaults.inputs, "Environment"),
+    var.project,
+    var.environment,
     var.service_shortname,
   )
 
@@ -79,21 +79,12 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     }
   }
 
-  tags = merge(
-    data.null_data_source.tag_defaults.inputs,
-    map(
-      "Name", replace(
-        format("%s-%s-%s",
-          var.service_name_prefix,
-          var.service_shortname,
-          lookup(data.null_data_source.tag_defaults.inputs, "Environment")
-        ),
-        "_",
-        "-"
-      )
-    )
-  )
+  tags = var.tags
+
   lifecycle {
-    ignore_changes = [windows_profile]
+    ignore_changes = [
+        windows_profile,
+        default_node_pool["max_count"],
+    ]
   }
 }
