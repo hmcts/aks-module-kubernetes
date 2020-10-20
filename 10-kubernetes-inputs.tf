@@ -65,3 +65,10 @@ variable "kubernetes_cluster_rbac_enabled" {
 variable "global_aks_admins_group_object_id" {
   default = "a6ce5b32-e0a5-419e-ba5c-67863c975941"
 }
+
+variable "kubernetes_cluster_admin_username" {
+  default = "k8sadmin"
+}
+
+// TODO read this from vault
+variable "kubernetes_cluster_ssh_key" {}

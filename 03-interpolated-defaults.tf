@@ -42,3 +42,11 @@ data "azurerm_key_vault_secret" "aks_admin_group_id" {
   name         = "aks-admin-rbac-group-id"
   key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
+
+data "azurerm_key_vault_secret" "kubernetes_cluster_client_secret" {
+  provider     = azurerm.hmcts-control
+  name         = "sp-token"
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
+}
+
+data "azurerm_client_config" "current" {}
