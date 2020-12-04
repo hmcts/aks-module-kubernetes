@@ -46,7 +46,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   addon_profile {
     oms_agent {
       enabled                    = true
-      log_analytics_workspace_id = data.azurerm_log_analytics_workspace.ss-law.id
+      log_analytics_workspace_id = var.log_workspace_id
     }
 
     kube_dashboard {
@@ -83,8 +83,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   lifecycle {
     ignore_changes = [
-        windows_profile,
-        default_node_pool["max_count"],
+      windows_profile,
+      default_node_pool["max_count"],
     ]
   }
 }
