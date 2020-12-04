@@ -17,5 +17,4 @@ variable "location" {}
 variable "tags" {}
 variable "log_workspace_id" {
   description = "Enter Log Analytics Workspace id"
-  type        = string
 }
