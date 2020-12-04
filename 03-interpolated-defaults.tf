@@ -10,15 +10,9 @@ locals {
 }
 
 data "azurerm_log_analytics_workspace" "ss-law" {
-  name = format("%s-%s-law",
-    var.project,
-    var.environment
-  )
-
-  resource_group_name = format("%s-%s-monitoring-rg",
-    var.project,
-    var.environment
-  )
+  provider            = azurerm.loganalytics
+  name                = local.log_analytics_workspace[[for x in keys(local.log_analytics_env_mapping) : x if contains(local.log_analytics_env_mapping[x], var.environment)][0]].name
+  resource_group_name = "oms-automation"
 }
 
 data "azurerm_subnet" "aks" {

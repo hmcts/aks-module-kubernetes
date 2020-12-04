@@ -83,8 +83,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   lifecycle {
     ignore_changes = [
-        windows_profile,
-        default_node_pool["max_count"],
+      windows_profile,
+      default_node_pool["max_count"],
     ]
   }
 }
