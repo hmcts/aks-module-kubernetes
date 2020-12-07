@@ -10,6 +10,20 @@ locals {
 }
 
 
+data "azurerm_log_analytics_workspace" "ss-law" {	
+  name = format("%s-%s-law",	
+    var.project,	
+    var.environment	
+  )	
+
+  resource_group_name = format("%s-%s-monitoring-rg",	
+    var.project,	
+    var.environment	
+  )	
+}
+
+
+
 data "azurerm_subnet" "aks" {
   name = format("%s-%s",
     var.service_shortname,
