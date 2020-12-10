@@ -11,7 +11,6 @@ locals {
 
 
 
-
 data "azurerm_subnet" "aks" {
   name = format("%s-%s",
     var.service_shortname,
