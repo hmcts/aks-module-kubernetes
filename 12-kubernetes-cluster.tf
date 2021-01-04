@@ -38,9 +38,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname,
   )
 
-  service_principal {
-    client_id     = data.azurerm_client_config.current.client_id
-    client_secret = data.azurerm_key_vault_secret.kubernetes_cluster_client_secret.value
+  identity {
+    type = "UserAssigned"
   }
 
   addon_profile {
