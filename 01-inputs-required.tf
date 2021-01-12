@@ -13,8 +13,6 @@ variable "project" {}
 variable "resource_group_name" {}
 variable "location" {}
 
-variable "user_assigned_identity_id" {}
-
 # Tags
 variable "tags" {}
 

@@ -2,6 +2,19 @@
 # Kubernetes Cluster
 #--------------------------------------------------------------
 
+data "azurerm_resource_group" "genesis_rg" {
+  name = "genesis-rg"
+}
+
+data "azurerm_resource_group" "managed-identity-operator" {
+  name = "managed-identities-${var.environment}-rg"
+}
+
+data "azurerm_user_assigned_identity" "aks" {
+  name                = "aks-${var.environment}-mi"
+  resource_group_name = data.azurerm_resource_group.genesis_rg.name
+}
+
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -40,7 +53,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   identity {
     type                      = "UserAssigned"
-    user_assigned_identity_id = var.user_assigned_identity_id
+    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
   }
 
   addon_profile {
@@ -87,4 +100,26 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       default_node_pool["max_count"],
     ]
   }
+}
+
+resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity.object_id
+  scope                = data.azurerm_user_assigned_identity.aks.id
+  role_definition_name = "Managed Identity Operator"
+}
+
+resource "azurerm_role_assignment" "uami_rg_identity_operator" {
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity.object_id
+  scope                = data.azurerm_resource_group.managed-identity-operator.id
+  role_definition_name = "Managed Identity Operator"
+}
+
+data "azurerm_resource_group" "node_resource_group" {
+  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
+}
+
+resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity.object_id
+  scope                = data.azurerm_resource_group.node_resource_group.id
+  role_definition_name = "Virtual Machine Contributor"
 }
