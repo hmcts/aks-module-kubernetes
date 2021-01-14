@@ -19,7 +19,7 @@ variable "kubernetes_cluster_agent_max_pods" {
 }
 
 variable "kubernetes_cluster_agent_os_disk_size" {
-  default = "128"
+  default = "100"
 }
 
 variable "kubernetes_cluster_agent_os_type" {
