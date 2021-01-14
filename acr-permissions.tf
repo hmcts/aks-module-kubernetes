@@ -29,7 +29,7 @@ resource "azurerm_role_assignment" "project_acrpull" {
   provider             = azurerm.acr
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   role_definition_name = "AcrPull"
-  scope                = data.azurerm_resource_group.project_acr.id
+  scope                = data.azurerm_resource_group.project_acr[0].id
 
   count = var.project_acr_enabled ? 1 : 0
 }
@@ -52,7 +52,7 @@ resource "azurerm_role_assignment" "global_registry_acrpull" {
   provider             = azurerm.global_acr
   role_definition_name = "AcrPull"
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_resource_group.global_acr.id
+  scope                = data.azurerm_resource_group.global_acr[0].id
 
   count = var.global_acr_enabled ? 1 : 0
 }
