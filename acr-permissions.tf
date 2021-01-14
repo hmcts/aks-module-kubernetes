@@ -1,12 +1,7 @@
 locals {
   acr = {
     ss = {
-      subscription          = "5ca62022-6aa2-4cee-aaa7-e7536c8d566c"
       resource_group_prefix = "sds"
-    }
-    global = {
-      subscription          = "8999dec3-0104-4a27-94ee-6588559729d1"
-      resource_group_prefix = "rpe"
     }
   }
 }
@@ -40,9 +35,7 @@ resource "azurerm_role_assignment" "project_acrpull" {
 
 data "azurerm_resource_group" "global_acr" {
   provider = azurerm.global_acr
-  name = format("%s-acr-rg",
-    local.acr["global"].resource_group_prefix,
-  )
+  name = "rpe-acr-prod-rg"
 
   count = var.global_acr_enabled ? 1 : 0
 }
