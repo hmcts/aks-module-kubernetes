@@ -123,7 +123,3 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   scope                = data.azurerm_resource_group.node_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
 }
-
-output "default_nodepool_kubelet_uami_object_id" {
-  value = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-}
