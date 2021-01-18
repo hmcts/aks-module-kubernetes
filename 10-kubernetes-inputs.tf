@@ -34,10 +34,6 @@ variable "kubernetes_cluster_enable_auto_scaling" {
   default = true
 }
 
-variable "kubernetes_cluster_kube_dashboard_enabled" {
-  default = true
-}
-
 variable "kubernetes_cluster_version" {
   default = "1.18.8"
 }

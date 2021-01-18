@@ -48,11 +48,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       enabled                    = true
       log_analytics_workspace_id =  var.log_workspace_id
     }
-
-    kube_dashboard {
-      enabled = var.kubernetes_cluster_kube_dashboard_enabled
-    }
-
   }
 
   kubernetes_version = var.kubernetes_cluster_version
