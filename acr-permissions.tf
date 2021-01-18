@@ -35,7 +35,7 @@ resource "azurerm_role_assignment" "project_acrpull" {
 
 data "azurerm_resource_group" "global_acr" {
   provider = azurerm.global_acr
-  name = "rpe-acr-prod-rg"
+  name     = "rpe-acr-prod-rg"
 
   count = var.global_acr_enabled ? 1 : 0
 }
