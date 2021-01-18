@@ -30,6 +30,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     vnet_subnet_id      = data.azurerm_subnet.aks.id
     max_count           = var.kubernetes_cluster_agent_max_count
     min_count           = var.kubernetes_cluster_agent_min_count
+    os_disk_type        = "Ephemeral"
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -46,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   addon_profile {
     oms_agent {
       enabled                    = true
-      log_analytics_workspace_id =  var.log_workspace_id
+      log_analytics_workspace_id = var.log_workspace_id
     }
   }
 
