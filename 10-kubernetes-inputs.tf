@@ -11,7 +11,7 @@ variable "kubernetes_cluster_agent_min_count" {
 }
 
 variable "kubernetes_cluster_agent_vm_size" {
-  default = "Standard_D4s_v3"
+  default = "Standard_DS3_v2"
 }
 
 variable "kubernetes_cluster_agent_max_pods" {
@@ -19,7 +19,7 @@ variable "kubernetes_cluster_agent_max_pods" {
 }
 
 variable "kubernetes_cluster_agent_os_disk_size" {
-  default = "100"
+  default = "128"
 }
 
 variable "kubernetes_cluster_agent_os_type" {
