@@ -19,3 +19,11 @@ variable "tags" {}
 variable "log_workspace_id" {
   description = "Enter Log Analytics Workspace id"
 }
+
+variable "project_acr_enabled" {
+  default = true
+}
+
+variable "global_acr_enabled" {
+  default = true
+}
