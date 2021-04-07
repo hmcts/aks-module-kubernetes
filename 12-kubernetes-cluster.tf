@@ -118,3 +118,15 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   scope                = data.azurerm_resource_group.node_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
 }
+
+resource "azurerm_kubernetes_cluster_node_pool" "kubernetes_cluster" {
+  name                = "msft"
+  vnet_subnet_id      = "${data.azurerm_subnet.aks.name}-sbox-${data.azurerm_subnet.aks.cluster_number}"
+  vm_size             = var.kubernetes_cluster_agent_vm_size
+  enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
+  min_count           = 2
+  max_count           = 5
+  os_type             = "Windows"
+  os_disk_type        = "Ephemeral"
+  node_taints         = ["kubernetes.io/os=windows:NoSchedule"]
+}
