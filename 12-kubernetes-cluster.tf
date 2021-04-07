@@ -119,7 +119,7 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   role_definition_name = "Virtual Machine Contributor"
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "kubernetes_cluster" {
+resource "azurerm_kubernetes_cluster_node_pool" "windows_node_pool" {
   name                = "msft"
   vnet_subnet_id      = "${data.azurerm_subnet.aks.name}-sbox-${data.azurerm_subnet.aks.cluster_number}"
   vm_size             = var.kubernetes_cluster_agent_vm_size
