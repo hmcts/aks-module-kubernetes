@@ -52,6 +52,19 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname,
   )
 
+  resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
+    for_each            = { for nodepool in var.additional_node_pools : nodepool.name => nodepool }
+    name                = each.value.name
+    vnet_subnet_id      = data.azurerm_subnet.aks.id
+    vm_size             = var.kubernetes_cluster_agent_vm_size
+    enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
+    min_count           = 2
+    max_count           = 5
+    os_type             = var.kubernetes_cluster_agent_os_type
+    os_disk_type        = "Ephemeral"
+    node_taints         = []
+  }
+
   identity {
     type                      = "UserAssigned"
     user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
@@ -117,16 +130,4 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.node_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
-}
-
-resource "azurerm_kubernetes_cluster_node_pool" "windows_node_pool" {
-  name                = "msft"
-  vnet_subnet_id      = "${data.azurerm_subnet.aks.name}-sbox-${data.azurerm_subnet.aks.cluster_number}"
-  vm_size             = var.kubernetes_cluster_agent_vm_size
-  enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
-  min_count           = 2
-  max_count           = 5
-  os_type             = "Windows"
-  os_disk_type        = "Ephemeral"
-  node_taints         = ["kubernetes.io/os=windows:NoSchedule"]
 }
