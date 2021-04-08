@@ -72,6 +72,7 @@ variable "kubernetes_cluster_ssh_key" {}
 variable "additional_node_pools" {
   type = list(object({
     name      = string
+    vm_size   = string
     os_type   = string
     min_count = number
     max_count = number
