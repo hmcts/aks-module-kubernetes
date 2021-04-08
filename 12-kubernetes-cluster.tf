@@ -53,14 +53,15 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   )
 
   resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
-    for_each            = { for nodepool in var.additional_node_pools : nodepool.name => nodepool }
+    for_each = { for nodepool in var.additional_node_pools : nodepool.name => nodepool }
+
     name                = each.value.name
     vnet_subnet_id      = data.azurerm_subnet.aks.id
     vm_size             = var.kubernetes_cluster_agent_vm_size
     enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
-    min_count           = 2
-    max_count           = 5
-    os_type             = var.kubernetes_cluster_agent_os_type
+    min_count           = each.value.min_count
+    max_count           = each.value.max_count
+    os_type             = lookup(each.value, "os_type", "Linux")
     os_disk_type        = "Ephemeral"
     node_taints         = []
   }
