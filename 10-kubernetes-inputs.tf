@@ -70,11 +70,13 @@ variable "kubernetes_cluster_admin_username" {
 variable "kubernetes_cluster_ssh_key" {}
 
 variable "additional_node_pools" {
-  name                = string
-  vm_size             = string
-  os_type             = string
-  min_count           = number
-  max_count           = number
-  enable_auto_scaling = bool
-  node_taints         = string
+  type = any
+  default = []
+  validation = {
+    condition = length(var.additional_node_pools) > 0 ? length([
+      for n in var.additional_node_pools : n
+      if lookup(n, "name", null) != null
+    ]) == length(var.additional_node_pools) : true
+    error_message = "validation error"
+  }
 }
