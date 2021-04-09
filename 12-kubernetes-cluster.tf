@@ -120,8 +120,8 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
-  for_each = { for nodepool in var.additional_node_pools : nodepool.name => nodepool }
-
+  count = additional_node_pools != null ? 1 : 0
+  
   name                  = each.value.name
   kubernetes_cluster_id = data.azurerm_subnet.aks.id
   vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
