@@ -123,7 +123,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   count = var.additional_node_pools != null ? 1 : 0
 
   name                  = var.additional_node_pools.name
-  kubernetes_cluster_id = data.azurerm_subnet.aks.id
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
   vm_size               = lookup(var.additional_node_pools, "vm_size", var.kubernetes_cluster_agent_vm_size)
   enable_auto_scaling   = lookup(var.additional_node_pools, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
   min_count             = var.additional_node_pools.min_count
