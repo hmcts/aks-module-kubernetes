@@ -77,6 +77,6 @@ variable "additional_node_pools" {
       for n in var.additional_node_pools : n
       if lookup(n, "name", null) != null
     ]) == length(var.additional_node_pools) : true
-    error_message = "validation error"
+    error_message = "Validation error."
   }
 }
