@@ -72,7 +72,7 @@ variable "kubernetes_cluster_ssh_key" {}
 variable "additional_node_pools" {
   type = any
   default = []
-  validation = {
+  validation {
     condition = length(var.additional_node_pools) > 0 ? length([
       for n in var.additional_node_pools : n
       if lookup(n, "name", null) != null
