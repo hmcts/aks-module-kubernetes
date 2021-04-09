@@ -130,5 +130,5 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   max_count             = var.additional_node_pools.max_count
   os_type               = lookup(var.additional_node_pools, "os_type", "Linux")
   os_disk_type          = "Ephemeral"
-  node_taints           = var.additional_node_pools.node_taints
+  node_taints           = [var.additional_node_pools.node_taints]
 }
