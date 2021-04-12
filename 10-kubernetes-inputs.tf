@@ -71,14 +71,12 @@ variable "kubernetes_cluster_ssh_key" {}
 
 variable "additional_node_pools" {
   default = null
+}
 
-  type = object({
-    name                = string
-    vm_size             = optional(string)
-    os_type             = string
-    min_count           = number
-    max_count           = number
-    enable_auto_scaling = optional(bool)
-    node_taints         = list(string)
-  })
+variable "additional_node_pools_agent_min_count" {
+  default = 2
+}
+
+variable "additional_node_pools_agent_max_count" {
+  default = 5
 }
