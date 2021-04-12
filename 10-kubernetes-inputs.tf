@@ -72,11 +72,3 @@ variable "kubernetes_cluster_ssh_key" {}
 variable "additional_node_pools" {
   default = null
 }
-
-variable "additional_node_pools_agent_min_count" {
-  default = 2
-}
-
-variable "additional_node_pools_agent_max_count" {
-  default = 5
-}
