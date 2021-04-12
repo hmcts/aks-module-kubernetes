@@ -122,13 +122,13 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   for_each = { for np in var.additional_node_pools : np.name => np }
 
-  name                  = var.additional_node_pools.name
+  name                  = each.value.name
   kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
-  vm_size               = lookup(var.additional_node_pools, "vm_size", var.kubernetes_cluster_agent_vm_size)
-  enable_auto_scaling   = lookup(var.additional_node_pools, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
-  min_count             = var.additional_node_pools.min_count
-  max_count             = var.additional_node_pools.max_count
-  os_type               = lookup(var.additional_node_pools, "os_type", "Linux")
+  vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
+  enable_auto_scaling   = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
+  min_count             = each.value.min_count
+  max_count             = each.value.max_count
+  os_type               = lookup(each.value, "os_type", "Linux")
   os_disk_type          = "Ephemeral"
-  node_taints           = var.additional_node_pools.node_taints
+  node_taints           = []
 }
