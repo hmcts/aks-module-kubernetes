@@ -70,5 +70,5 @@ variable "kubernetes_cluster_admin_username" {
 variable "kubernetes_cluster_ssh_key" {}
 
 variable "additional_node_pools" {
-  default = null
+  default = []
 }
