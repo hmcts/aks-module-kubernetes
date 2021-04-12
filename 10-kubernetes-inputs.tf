@@ -76,7 +76,7 @@ variable "additional_node_pools" {
     min_count           = number
     max_count           = number
     os_type             = string
-    node_taints         = []
+    node_taints         = list(string)
     enable_auto_scaling = bool
 
   }))
