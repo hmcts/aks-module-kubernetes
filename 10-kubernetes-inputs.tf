@@ -70,5 +70,15 @@ variable "kubernetes_cluster_admin_username" {
 variable "kubernetes_cluster_ssh_key" {}
 
 variable "additional_node_pools" {
+  type = list(object({
+    name                = string
+    vm_size             = string
+    min_count           = number
+    max_count           = number
+    os_type             = string
+    node_taints         = []
+    enable_auto_scaling = bool
+
+  }))
   default = []
 }
