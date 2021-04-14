@@ -118,3 +118,17 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   scope                = data.azurerm_resource_group.node_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
 }
+
+resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
+  for_each = { for np in var.additional_node_pools : np.name => np }
+
+  name                  = each.value.name
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
+  vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
+  enable_auto_scaling   = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
+  min_count             = each.value.min_count
+  max_count             = each.value.max_count
+  os_type               = lookup(each.value, "os_type", "Linux")
+  os_disk_type          = "Ephemeral"
+  node_taints           = each.value.node_taints
+}

@@ -68,3 +68,7 @@ variable "kubernetes_cluster_admin_username" {
 
 // TODO read this from vault
 variable "kubernetes_cluster_ssh_key" {}
+
+variable "additional_node_pools" {
+  default = {}
+}
