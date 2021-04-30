@@ -54,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   identity {
     type                      = "UserAssigned"
-    user_assigned_identity_id = replace(data.azurerm_user_assigned_identity.aks.id, "resourceGroups","resourcegroups")
+    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
   }
 
   addon_profile {
