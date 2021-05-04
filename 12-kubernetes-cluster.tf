@@ -44,6 +44,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     max_count           = var.kubernetes_cluster_agent_max_count
     min_count           = var.kubernetes_cluster_agent_min_count
     os_disk_type        = "Ephemeral"
+    orchestrator_version = var.kubernetes_cluster_version
+
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -131,4 +133,5 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   os_type               = lookup(each.value, "os_type", "Linux")
   os_disk_type          = "Ephemeral"
   node_taints           = each.value.node_taints
+  orchestrator_version = var.kubernetes_cluster_version
 }
