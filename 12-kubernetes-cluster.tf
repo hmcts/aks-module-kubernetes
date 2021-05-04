@@ -34,16 +34,16 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   )
 
   default_node_pool {
-    name                = "nodepool"
-    vm_size             = var.kubernetes_cluster_agent_vm_size
-    enable_auto_scaling = var.kubernetes_cluster_enable_auto_scaling
-    max_pods            = var.kubernetes_cluster_agent_max_pods
-    os_disk_size_gb     = var.kubernetes_cluster_agent_os_disk_size
-    type                = var.kubernetes_cluster_agent_type
-    vnet_subnet_id      = data.azurerm_subnet.aks.id
-    max_count           = var.kubernetes_cluster_agent_max_count
-    min_count           = var.kubernetes_cluster_agent_min_count
-    os_disk_type        = "Ephemeral"
+    name                 = "nodepool"
+    vm_size              = var.kubernetes_cluster_agent_vm_size
+    enable_auto_scaling  = var.kubernetes_cluster_enable_auto_scaling
+    max_pods             = var.kubernetes_cluster_agent_max_pods
+    os_disk_size_gb      = var.kubernetes_cluster_agent_os_disk_size
+    type                 = var.kubernetes_cluster_agent_type
+    vnet_subnet_id       = data.azurerm_subnet.aks.id
+    max_count            = var.kubernetes_cluster_agent_max_count
+    min_count            = var.kubernetes_cluster_agent_min_count
+    os_disk_type         = "Ephemeral"
     orchestrator_version = var.kubernetes_cluster_version
 
   }
@@ -133,5 +133,5 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   os_type               = lookup(each.value, "os_type", "Linux")
   os_disk_type          = "Ephemeral"
   node_taints           = each.value.node_taints
-  orchestrator_version = var.kubernetes_cluster_version
+  orchestrator_version  = var.kubernetes_cluster_version
 }
