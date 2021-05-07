@@ -21,7 +21,7 @@ variable "log_workspace_id" {
 }
 
 variable "project_acr_enabled" {
-  default = true
+  default = false
 }
 
 variable "global_acr_enabled" {
