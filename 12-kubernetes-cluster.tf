@@ -127,6 +127,22 @@ data "azurerm_resource_group" "node_resource_group" {
   name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
 }
 
+data "azurerm_resource_group" "vnet_resource_group" {
+  name = "cft-${var.environment}-network--rg"
+}
+
+resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+  scope                = data.azurerm_resource_group.node_resource_group.id
+  role_definition_name = "Virtual Machine Contributor"
+}
+
+resource "azurerm_role_assignment" "node_vnet_update_scale_set" {
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+  scope                = data.azurerm_resource_group.vnet_resource_group.id
+  role_definition_name = "Network Contributor"
+}
+
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.node_resource_group.id
