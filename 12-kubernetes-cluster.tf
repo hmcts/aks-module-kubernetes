@@ -128,7 +128,7 @@ data "azurerm_resource_group" "node_resource_group" {
 }
 
 data "azurerm_resource_group" "vnet_resource_group" {
-  name = "cft-${var.environment}-network--rg"
+  name = "cft-${var.environment}-network-rg"
 }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
