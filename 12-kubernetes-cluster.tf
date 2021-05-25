@@ -10,6 +10,11 @@ data "azurerm_resource_group" "managed-identity-operator" {
   name = "managed-identities-${var.environment}-rg"
 }
 
+data "azurerm_resource_group" "managed-identity-operator-cft-mi" {
+  provider = azurerm.mi_cft
+  name     = "managed-identities-${local.environment}-rg"
+}
+
 data "azurerm_user_assigned_identity" "aks" {
   name                = "aks-${var.environment}-mi"
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
@@ -108,6 +113,13 @@ resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
 resource "azurerm_role_assignment" "uami_rg_identity_operator" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.managed-identity-operator.id
+  role_definition_name = "Managed Identity Operator"
+}
+
+resource "azurerm_role_assignment" "uami_cft_rg_identity_operator" {
+  provider             = azurerm.mi_cft
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+  scope                = data.azurerm_resource_group.managed-identity-operator-cft-mi.id
   role_definition_name = "Managed Identity Operator"
 }
 
