@@ -13,3 +13,7 @@ provider "azurerm" {
 provider "azurerm" {
   alias = "global_acr"
 }
+
+provider "azurerm" {
+  alias = "mi_cft"
+}
