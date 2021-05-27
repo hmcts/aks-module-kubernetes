@@ -27,3 +27,7 @@ variable "project_acr_enabled" {
 variable "global_acr_enabled" {
   default = true
 }
+
+variable "monitor_diagnostic_setting" {
+  default = false
+}
