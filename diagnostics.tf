@@ -7,46 +7,26 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
   log {
     category = "kube-apiserver"
     enabled  = true
-
-    # retention_policy {
-    #   enabled = false
-    # }
   }
 
   log {
     category = "kube-controller-manager"
     enabled  = true
-
-    # retention_policy {
-    #   enabled = false
-    # }
   }
 
   log {
     category = "cluster-autoscaler"
     enabled  = true
-
-    # retention_policy {
-    #   enabled = false
-    # }
   }
 
   log {
     category = "kube-scheduler"
     enabled  = true
-
-    # retention_policy {
-    #   enabled = false
-    # }
   }
 
   log {
     category = "kube-audit"
     enabled  = true
-
-    # retention_policy {
-    #   enabled = false
-    # }
   }
 
   metric {
