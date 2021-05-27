@@ -1,7 +1,7 @@
 resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_setting" {
   name                       = "DiagLogAnalytics"
   count                      = var.monitor_diagnostic_setting ? 1 : 0
-  target_resource_id         = data.azurerm_kubernetes_cluster.kubernetes_cluster.id
+  target_resource_id         = azurerm_kubernetes_cluster.kubernetes_cluster.id
   log_analytics_workspace_id = var.log_workspace_id
 
   log {
