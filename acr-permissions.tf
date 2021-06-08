@@ -4,7 +4,7 @@ locals {
       resource_group_prefix = "sds"
     }
     cft = {
-      resource_group_prefix = "cft"
+      resource_group_prefix = "cnp"
     }
   }
 }
