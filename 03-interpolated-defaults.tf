@@ -8,7 +8,7 @@ data "azurerm_role_definition" "builtin_role_definition" {
 locals {
   slug_location = lower(replace(var.location, " ", "."))
 
-  environment = (var.environment == "sbox") ? "sandbox" : ( (var.environment == "test") ? "perftest" : "${var.environment}")
+  environment = (var.environment == "sbox") ? "sandbox" : (var.environment == "test") ? "perftest" : "${var.environment}"
   
 }
 
