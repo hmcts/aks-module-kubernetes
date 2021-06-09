@@ -3,7 +3,7 @@
 #--------------------------------------------------------------
 locals { 
 
-  environment = (var.environment == "sandbox") ? "sbox" : (var.environment == "test") ? "perftest" : "${var.environment}"
+  environment-mi = (var.environment == "sandbox") ? "sbox" : (var.environment == "test") ? "perftest" : "${var.environment}"
   
 }
 
@@ -12,7 +12,7 @@ data "azurerm_resource_group" "genesis_rg" {
 }
 
 data "azurerm_resource_group" "managed-identity-operator" {
-  name = "managed-identities-${local.environment}-rg"
+  name = "managed-identities-${local.environment-mi}-rg"
 }
 
 data "azurerm_resource_group" "managed-identity-operator-cft-mi" {
