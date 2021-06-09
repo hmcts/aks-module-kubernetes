@@ -1,6 +1,11 @@
 #--------------------------------------------------------------
 # Kubernetes Cluster
 #--------------------------------------------------------------
+locals { 
+
+  environment = (var.environment == "sandbox") ? "sbox" : (var.environment == "test") ? "perftest" : "${var.environment}"
+  
+}
 
 data "azurerm_resource_group" "genesis_rg" {
   name = "genesis-rg"
