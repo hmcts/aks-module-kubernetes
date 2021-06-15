@@ -8,19 +8,3 @@ terraform {
     }
   }
 }
-
-# terraform {
-  
-# }
-
-# provider "azurerm" {
-#   alias = "hmcts-control"
-# }
-
-# provider "azurerm" {
-#   alias = "acr"
-# }
-
-# provider "azurerm" {
-#   alias = "global_acr"
-# }
