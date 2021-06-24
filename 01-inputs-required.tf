@@ -29,7 +29,7 @@ variable "global_acr_enabled" {
 }
 
 variable "monitor_diagnostic_setting" {
-  default = false
+  default = true
 }
 
 variable "sku_tier" {
