@@ -14,7 +14,7 @@ locals {
 // ==================
 
 data "azurerm_resource_group" "project_acr" {
-  provider = azurerm.mi_cft
+  provider = azurerm.acr
   name = format("%s-acr-rg",
     local.acr[var.project].resource_group_prefix,
   )
@@ -24,7 +24,7 @@ data "azurerm_resource_group" "project_acr" {
 
 
 resource "azurerm_role_assignment" "project_acrpull" {
-  provider             = azurerm.mi_cft
+  provider             = azurerm.acr
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   role_definition_name = "AcrPull"
   scope                = data.azurerm_resource_group.project_acr[0].id

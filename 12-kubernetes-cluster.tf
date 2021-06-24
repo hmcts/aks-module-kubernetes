@@ -16,7 +16,7 @@ data "azurerm_resource_group" "managed-identity-operator" {
 }
 
 data "azurerm_resource_group" "managed-identity-operator-cft-mi" {
-  provider = azurerm.mi_cft
+  provider = azurerm.acr
   name     = "managed-identities-${local.environment}-rg"
 }
 
@@ -124,7 +124,7 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
 }
 
 resource "azurerm_role_assignment" "uami_cft_rg_identity_operator" {
-  provider             = azurerm.mi_cft
+  provider             = azurerm.acr
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.managed-identity-operator-cft-mi.id
   role_definition_name = "Managed Identity Operator"
