@@ -29,9 +29,10 @@ variable "global_acr_enabled" {
 }
 
 variable "monitor_diagnostic_setting" {
-  default = false
+  default = true
 }
 
 variable "sku_tier" {
-  default = "Free"
+  default     = "Free"
+  description = "Free or Paid (which includes the uptime SLA)"
 }

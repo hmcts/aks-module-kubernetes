@@ -9,7 +9,7 @@ locals {
   slug_location = lower(replace(var.location, " ", "."))
 
   environment = (var.environment == "sbox") ? "sandbox" : (var.environment == "test") ? "perftest" : "${var.environment}"
-  
+
 }
 
 
