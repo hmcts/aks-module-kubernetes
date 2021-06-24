@@ -1,3 +1,4 @@
+  
 variable "control_vault" {}
 
 variable "environment" {}
@@ -21,7 +22,7 @@ variable "log_workspace_id" {
 }
 
 variable "project_acr_enabled" {
-  default = false
+  default = true
 }
 
 variable "global_acr_enabled" {
