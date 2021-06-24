@@ -43,6 +43,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
+  sku_tier = var.sku_tier
+
   default_node_pool {
     name                 = "nodepool"
     vm_size              = var.kubernetes_cluster_agent_vm_size
