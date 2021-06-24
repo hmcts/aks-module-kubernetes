@@ -27,3 +27,11 @@ variable "project_acr_enabled" {
 variable "global_acr_enabled" {
   default = true
 }
+
+variable "monitor_diagnostic_setting" {
+  default = false
+}
+
+variable "sku_tier" {
+  default = "Free"
+} 
