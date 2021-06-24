@@ -32,6 +32,7 @@ variable "monitor_diagnostic_setting" {
   default = true
 }
 
+# Free or Paid (which includes the uptime SLA)
 variable "sku_tier" {
   default = "Free"
 } 
