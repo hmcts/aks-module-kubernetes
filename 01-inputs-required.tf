@@ -27,3 +27,12 @@ variable "project_acr_enabled" {
 variable "global_acr_enabled" {
   default = true
 }
+
+variable "monitor_diagnostic_setting" {
+  default = true
+}
+
+variable "sku_tier" {
+  default     = "Free"
+  description = "Free or Paid (which includes the uptime SLA)"
+}

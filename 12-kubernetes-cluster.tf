@@ -33,6 +33,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
+  sku_tier = var.sku_tier
   default_node_pool {
     name                 = "nodepool"
     vm_size              = var.kubernetes_cluster_agent_vm_size
@@ -145,4 +146,52 @@ resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.disks_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
+}
+
+resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_setting" {
+  name                       = "DiagLogAnalytics"
+  count                      = var.monitor_diagnostic_setting ? 1 : 0
+  target_resource_id         = azurerm_kubernetes_cluster.kubernetes_cluster.id
+  log_analytics_workspace_id = var.log_workspace_id
+
+  log {
+    category = "kube-apiserver"
+    enabled  = true
+  }
+
+
+  log {
+    category = "guard"
+    enabled  = true
+  }
+
+  log {
+    category = "kube-controller-manager"
+    enabled  = true
+  }
+
+  log {
+    category = "cluster-autoscaler"
+    enabled  = true
+  }
+
+  log {
+    category = "kube-scheduler"
+    enabled  = true
+  }
+
+  log {
+    category = "kube-audit-admin"
+    enabled  = true
+  }
+
+  metric {
+    category = "AllMetrics"
+
+    retention_policy {
+      enabled = true
+      days    = 30
+    }
+  }
+
 }
