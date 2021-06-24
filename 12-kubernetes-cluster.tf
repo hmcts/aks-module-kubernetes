@@ -136,3 +136,13 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
 }
+
+data "azurerm_resource_group" "disks_resource_group" {
+  name = "disks-${var.environment}-rg"
+}
+
+resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
+  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+  scope                = data.azurerm_resource_group.disks_resource_group.id
+  role_definition_name = "Virtual Machine Contributor"
+}
