@@ -150,6 +150,12 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
     enabled  = true
   }
 
+
+  log {
+    category = "guard"
+    enabled  = true
+  }
+
   log {
     category = "kube-controller-manager"
     enabled  = true
