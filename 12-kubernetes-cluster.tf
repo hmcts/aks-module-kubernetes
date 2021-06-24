@@ -166,7 +166,7 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
   }
 
   log {
-    category = "kube-audit"
+    category = "kube-audit-admin"
     enabled  = true
   }
 
