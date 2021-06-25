@@ -7,7 +7,7 @@ data "azurerm_resource_group" "genesis_rg" {
 }
 
 data "azurerm_resource_group" "managed-identity-operator" {
-  name = "managed-identities-${local.environment-mi}-rg"
+  name = "managed-identities-${var.environment}-rg"
 }
 
 data "azurerm_user_assigned_identity" "aks" {
