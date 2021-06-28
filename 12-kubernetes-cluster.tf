@@ -144,7 +144,7 @@ data "azurerm_resource_group" "disks_resource_group" {
 }
 
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
-  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+  principal_id         = data.azurerm_user_assigned_identity.aks.id
   scope                = data.azurerm_resource_group.disks_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
 }
