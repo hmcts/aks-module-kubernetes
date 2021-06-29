@@ -3,6 +3,9 @@ locals {
     ss = {
       resource_group_prefix = "sds"
     }
+    cft = {
+      resource_group_prefix = "cnp"
+    }
   }
 }
 
