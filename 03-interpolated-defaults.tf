@@ -7,7 +7,6 @@ data "azurerm_role_definition" "builtin_role_definition" {
 
 locals {
   slug_location = lower(replace(var.location, " ", "."))
-  environment = var.environment == "perftest" ? "test" : "${var.environment}"
 }
 
 
@@ -25,7 +24,7 @@ data "azurerm_subnet" "aks" {
 data "azurerm_key_vault" "hmcts_access_vault" {
   provider            = azurerm.hmcts-control
   name                = var.control_vault
-  resource_group_name = "azure-control-${local.environment}-rg"
+  resource_group_name = var.control_resource_group != "" ? var.control_resource_group : "azure-control-${var.environment}-rg"
 }
 
 data "azurerm_key_vault_secret" "aks_admin_group_id" {
