@@ -46,7 +46,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     min_count            = var.kubernetes_cluster_agent_min_count
     os_disk_type         = "Ephemeral"
     orchestrator_version = var.kubernetes_cluster_version
-    tags = var.tags
+    tags                 = var.tags
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -136,7 +136,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   node_taints           = each.value.node_taints
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
-  tags = var.tags
+  tags                  = var.tags
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
@@ -144,6 +144,7 @@ data "azurerm_resource_group" "disks_resource_group" {
 }
 
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
+  count                = var.cluster_number == "00" ? 1 : 0
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
   scope                = data.azurerm_resource_group.disks_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
