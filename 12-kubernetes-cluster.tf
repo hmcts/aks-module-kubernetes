@@ -144,7 +144,7 @@ data "azurerm_resource_group" "disks_resource_group" {
 }
 
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
-  count                = var.cluster_number == "00" ? 1 : 0
+  count                = var.ptl_cluster ? 1 : 0
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
   scope                = data.azurerm_resource_group.disks_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
