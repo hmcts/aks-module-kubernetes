@@ -36,3 +36,7 @@ variable "sku_tier" {
   default     = "Free"
   description = "Free or Paid (which includes the uptime SLA)"
 }
+
+variable "ptl_cluster" {
+  default = false
+}
