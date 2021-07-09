@@ -140,7 +140,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
-  name = "disks-${var.environment}-rg"
+  count = var.ptl_cluster ? 1 : 0
+  name  = "disks-${var.environment}-rg"
 }
 
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
