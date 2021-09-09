@@ -35,7 +35,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   sku_tier = var.sku_tier
   default_node_pool {
-    name                 = "nodepool"
+    name                 = "system"
+    node_taints          = ["CriticalAddonsOnly=true:NoSchedule"]
     vm_size              = var.kubernetes_cluster_agent_vm_size
     enable_auto_scaling  = var.kubernetes_cluster_enable_auto_scaling
     max_pods             = var.kubernetes_cluster_agent_max_pods
