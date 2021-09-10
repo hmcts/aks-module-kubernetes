@@ -40,3 +40,7 @@ variable "sku_tier" {
 variable "ptl_cluster" {
   default = false
 }
+
+variable "enable_user_system_nodepool_split" {
+  default = false
+}
