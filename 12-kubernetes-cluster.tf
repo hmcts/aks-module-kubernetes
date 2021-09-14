@@ -129,6 +129,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
   vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
   enable_auto_scaling   = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
+  mode                  = lookup(each.value, "mode", "User")
   min_count             = each.value.min_count
   max_count             = each.value.max_count
   os_type               = lookup(each.value, "os_type", "Linux")
