@@ -35,18 +35,19 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   sku_tier = var.sku_tier
   default_node_pool {
-    name                 = var.enable_user_system_nodepool_split == true ? "linux" : "nodepool"
-    vm_size              = var.kubernetes_cluster_agent_vm_size
-    enable_auto_scaling  = var.kubernetes_cluster_enable_auto_scaling
-    max_pods             = var.kubernetes_cluster_agent_max_pods
-    os_disk_size_gb      = var.kubernetes_cluster_agent_os_disk_size
-    type                 = var.kubernetes_cluster_agent_type
-    vnet_subnet_id       = data.azurerm_subnet.aks.id
-    max_count            = var.kubernetes_cluster_agent_max_count
-    min_count            = var.kubernetes_cluster_agent_min_count
-    os_disk_type         = "Ephemeral"
-    orchestrator_version = var.kubernetes_cluster_version
-    tags                 = var.tags
+    name                         = var.enable_user_system_nodepool_split == true ? "system" : "nodepool"
+    only_critical_addons_enabled = var.enable_user_system_nodepool_split == true ? true : false
+    vm_size                      = var.kubernetes_cluster_agent_vm_size
+    enable_auto_scaling          = var.kubernetes_cluster_enable_auto_scaling
+    max_pods                     = var.kubernetes_cluster_agent_max_pods
+    os_disk_size_gb              = var.kubernetes_cluster_agent_os_disk_size
+    type                         = var.kubernetes_cluster_agent_type
+    vnet_subnet_id               = data.azurerm_subnet.aks.id
+    max_count                    = var.kubernetes_cluster_agent_max_count
+    min_count                    = var.kubernetes_cluster_agent_min_count
+    os_disk_type                 = "Ephemeral"
+    orchestrator_version         = var.kubernetes_cluster_version
+    tags                         = var.tags
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -141,7 +142,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
-  name  = "disks-${var.environment}-rg"
+  name = "disks-${var.environment}-rg"
 }
 
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
