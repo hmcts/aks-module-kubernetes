@@ -46,4 +46,5 @@ variable "enable_user_system_nodepool_split" {
 }
 variable availability_zones {
   type = list
+  default = []
 }

@@ -48,7 +48,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     os_disk_type                 = "Ephemeral"
     orchestrator_version         = var.kubernetes_cluster_version
     tags                         = var.tags
-    availability_zones           = length(var.availability_zones) != 0 ? var.availability_zones : []
+    availability_zones           = var.availability_zones
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -140,7 +140,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
   tags                  = var.tags
-  availability_zones    = length(var.availability_zones) != 0 ? var.availability_zones : []
+  availability_zones    = var.availability_zones
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
