@@ -44,3 +44,7 @@ variable "ptl_cluster" {
 variable "enable_user_system_nodepool_split" {
   default = false
 }
+variable availability_zones {
+  type = list
+  default = []
+}
