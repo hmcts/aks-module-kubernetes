@@ -134,7 +134,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   mode                  = lookup(each.value, "mode", "User")
   min_count             = each.value.min_count
   max_count             = each.value.max_count
-  max_pods              = each.value.max_pods
+  max_pods              = lookup(each.value, "max_pods", "30")
   os_type               = lookup(each.value, "os_type", "Linux")
   os_disk_type          = "Ephemeral"
   node_taints           = each.value.node_taints
