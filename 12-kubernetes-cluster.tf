@@ -136,7 +136,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
   tags                  = var.tags
-  availability_zones    = var.availability_zones
+  zones                 = var.availability_zones
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
