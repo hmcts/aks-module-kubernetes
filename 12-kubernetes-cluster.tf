@@ -48,7 +48,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     os_disk_type                 = "Ephemeral"
     orchestrator_version         = var.kubernetes_cluster_version
     tags                         = var.tags
-    availability_zones           = var.availability_zones
+    zones                        = var.availability_zones
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
