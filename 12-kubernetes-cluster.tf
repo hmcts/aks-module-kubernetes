@@ -62,12 +62,10 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     identity_id = [ data.azurerm_user_assigned_identity.aks.id ]
   }
 
-  addon_profile {
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = var.log_workspace_id
-    }
+  oms_agent {
+    log_analytics_workspace_id = var.log_workspace_id
   }
+
 
   kubernetes_version = var.kubernetes_cluster_version
 
