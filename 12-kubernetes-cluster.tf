@@ -59,7 +59,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   identity {
     type        = "UserAssigned"
-    identity_id = [ data.azurerm_user_assigned_identity.aks.id ]
+    identity_ids = [ data.azurerm_user_assigned_identity.aks.id ]
   }
 
   oms_agent {
