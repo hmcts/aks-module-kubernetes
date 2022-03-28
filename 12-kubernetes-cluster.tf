@@ -82,13 +82,10 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     load_balancer_sku = var.kubernetes_cluster_load_balancer_sku
   }
 
-  role_based_access_control {
-    enabled = var.kubernetes_cluster_rbac_enabled
-
-    azure_active_directory {
-      managed                = true
-      admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
-    }
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled     = var.kubernetes_cluster_rbac_enabled
+    managed                = true
+    admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
   }
 
   tags = var.tags
