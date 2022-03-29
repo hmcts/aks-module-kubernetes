@@ -59,7 +59,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   identity {
     type        = "UserAssigned"
-    identity_ids = [ data.azurerm_user_assigned_identity.aks.id ]
+    identity_ids = [data.azurerm_user_assigned_identity.aks.id]
   }
 
   oms_agent {
@@ -83,7 +83,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   azure_active_directory_role_based_access_control {
-    azure_rbac_enabled     = var.kubernetes_cluster_rbac_enabled
+    azure_rbac_enabled     = false
     managed                = true
     admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
   }
