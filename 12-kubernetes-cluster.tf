@@ -15,9 +15,10 @@ data "azurerm_user_assigned_identity" "aks" {
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
 }
 
-kubelet_identity "kubelet_uami" {
-  count = var.kubelet_uami_enabled == true ? 1 : 0
-  user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
+data "azurerm_user_assigned_identity" "kubelet_uami" {
+  count               = var.kubelet_uami_enabled == true ? 1 : 0
+  name                = data.azurerm_user_assigned_identity.aks.id
+  resource_group_name = data.azurerm_resource_group.genesis_rg.name
 }
 
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
@@ -64,6 +65,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   identity {
     type                      = "UserAssigned"
+    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
+  }
+
+  kubelet_identity {
+    type = "UserAssigned"
     user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
   }
 
