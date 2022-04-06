@@ -15,6 +15,11 @@ data "azurerm_user_assigned_identity" "aks" {
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
 }
 
+data "azurerm_user_assigned_identity" "kubelet" {
+  name                = "aks-kubelet-${var.environment}-mi"
+  resource_group_name = data.azurerm_resource_group.genesis_rg.name
+}
+
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -63,8 +68,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   kubelet_identity {
-    object_id                 = data.azurerm_user_assigned_identity.aks.principal_id
-    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
+    client_id                 = data.azurerm_user_assigned_identity.kubelet.principal_id
+    user_assigned_identity_id = data.azurerm_user_assigned_identity.kubelet.id
   }
 
   oms_agent {
