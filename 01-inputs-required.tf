@@ -53,3 +53,5 @@ variable "kubelet_uami_enabled" {
   default     = false
   description = "Feature toggle flag to enable/disable the use our own managed identity"
 }
+
+variable "client_id" {}
