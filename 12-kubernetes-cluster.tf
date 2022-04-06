@@ -63,8 +63,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   kubelet_identity {
-    count                     = var.kubelet_uami_enabled == true ? 1 : 0
-    user_assigned_identity_id = [data.azurerm_user_assigned_identity.aks.id]
+    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
   }
 
   oms_agent {
