@@ -64,7 +64,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   kubelet_identity {
     client_id                 = data.azurerm_user_assigned_identity.aks.client_id
-    object_id                 = data.azurerm_user_assigned_identity.aks.object_id
     user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
   }
 
