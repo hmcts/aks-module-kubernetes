@@ -63,7 +63,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   kubelet_identity {
-    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
+    client_id = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].client_id
+    object_id = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+    user_assigned_identity_id = zurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].user_assigned_identity_id
   }
 
   oms_agent {
