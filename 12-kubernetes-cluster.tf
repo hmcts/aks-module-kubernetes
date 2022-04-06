@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   kubelet_identity {
-    user_assigned_identity_id = data.azurerm_user_assigned_identity.Kubelet-MI.id
+    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
   }
 
   addon_profile {
