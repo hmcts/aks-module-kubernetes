@@ -69,36 +69,38 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   oms_agent {
     log_analytics_workspace_id = var.log_workspace_id
   }
-}
 
-kubernetes_version = var.kubernetes_cluster_version
 
-linux_profile {
-  admin_username = var.kubernetes_cluster_admin_username
+  kubernetes_version = var.kubernetes_cluster_version
 
-  ssh_key {
-    key_data = var.kubernetes_cluster_ssh_key
+  linux_profile {
+    admin_username = var.kubernetes_cluster_admin_username
+
+    ssh_key {
+      key_data = var.kubernetes_cluster_ssh_key
+    }
+  }
+
+  network_profile {
+    network_plugin    = var.kubernetes_cluster_network_plugin
+    load_balancer_sku = var.kubernetes_cluster_load_balancer_sku
+  }
+
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled     = false
+    managed                = true
+    admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
+  }
+
+  tags = var.tags
+
+  lifecycle {
+    ignore_changes = [
+      windows_profile,
+    ]
   }
 }
 
-network_profile {
-  network_plugin    = var.kubernetes_cluster_network_plugin
-  load_balancer_sku = var.kubernetes_cluster_load_balancer_sku
-}
-
-azure_active_directory_role_based_access_control {
-  azure_rbac_enabled     = false
-  managed                = true
-  admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
-}
-
-tags = var.tags
-
-lifecycle {
-  ignore_changes = [
-    windows_profile,
-  ]
-}
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_user_assigned_identity.aks.id
