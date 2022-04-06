@@ -48,7 +48,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     os_disk_type                 = "Ephemeral"
     orchestrator_version         = var.kubernetes_cluster_version
     tags                         = var.tags
-    availability_zones           = var.availability_zones
+    zones                        = var.availability_zones
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
@@ -58,16 +58,14 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   )
 
   identity {
-    type                      = "UserAssigned"
-    user_assigned_identity_id = data.azurerm_user_assigned_identity.aks.id
+    type        = "UserAssigned"
+    identity_ids = [data.azurerm_user_assigned_identity.aks.id]
   }
 
-  addon_profile {
-    oms_agent {
-      enabled                    = true
-      log_analytics_workspace_id = var.log_workspace_id
-    }
+  oms_agent {
+    log_analytics_workspace_id = var.log_workspace_id
   }
+
 
   kubernetes_version = var.kubernetes_cluster_version
 
@@ -84,13 +82,10 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     load_balancer_sku = var.kubernetes_cluster_load_balancer_sku
   }
 
-  role_based_access_control {
-    enabled = var.kubernetes_cluster_rbac_enabled
-
-    azure_active_directory {
-      managed                = true
-      admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
-    }
+  azure_active_directory_role_based_access_control {
+    azure_rbac_enabled     = false
+    managed                = true
+    admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
   }
 
   tags = var.tags
@@ -141,7 +136,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
   tags                  = var.tags
-  availability_zones    = var.availability_zones
+  zones                 = var.availability_zones
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
