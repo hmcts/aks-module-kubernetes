@@ -50,6 +50,6 @@ variable "availability_zones" {
 }
 
 variable "kubelet_uami_enabled" {
-  default = false
+  default     = false
   description = "Feature toggle flag to enable/disable the use our own managed identity"
 }
