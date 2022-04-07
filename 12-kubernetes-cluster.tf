@@ -69,7 +69,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     identity_ids = [data.azurerm_user_assigned_identity.aks.id]
   }
 
-  kubelet_identity {
+  dynamic "kubelet_identity" {
     for_each = var.kubelet_uami_enabled == true ? 1 : 0
     content {
       client_id                 = data.azurerm_user_assigned_identity.kubelet_uami[0].client_id
