@@ -48,8 +48,3 @@ variable "availability_zones" {
   type    = list(any)
   default = []
 }
-
-variable "kubelet_uami_enabled" {
-  default     = false
-  description = "Feature toggle flag to enable/disable the use our own managed identity"
-}
