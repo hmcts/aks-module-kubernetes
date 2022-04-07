@@ -70,8 +70,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   kubelet_identity {
-    client_id                 = var.kubelet_uami_enabled == true ? [data.azurerm_user_assigned_identity.kubelet_uami[0].client_id] : null
-    user_assigned_identity_id = var.kubelet_uami_enabled == true ? [data.azurerm_user_assigned_identity.kubelet_uami[0].object_id] : null
+    client_id                 = var.kubelet_uami_enabled == true ? data.azurerm_user_assigned_identity.kubelet_uami[0].client_id : false
+    user_assigned_identity_id = var.kubelet_uami_enabled == true ? data.azurerm_user_assigned_identity.kubelet_uami[0].object_id : false
   }
 
   oms_agent {
