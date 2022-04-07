@@ -66,6 +66,11 @@ variable "kubernetes_cluster_admin_username" {
   default = "k8sadmin"
 }
 
+variable "kubelet_uami_enabled" {
+  default     = false
+  description = "Feature toggle flag to enable/disable the use our own managed identity"
+}
+
 // TODO read this from vault
 variable "kubernetes_cluster_ssh_key" {}
 
