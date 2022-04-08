@@ -70,7 +70,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   kubelet_identity {
-    client_id = (var.kubelet_uami_enabled != False ? data.azurerm_user_assigned_identity.kubelet_uami[0].client_id : [])
+    client_id = (var.kubelet_uami_enabled != False ? data.azurerm_user_assigned_identity.kubelet_uami[0].client_id : False)
     // user_assigned_identity_id = data.azurerm_user_assigned_identity.kubelet_uami[0].object_id
   }
 
