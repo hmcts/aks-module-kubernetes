@@ -112,6 +112,10 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 }
 
+data "azurerm_resource_group" "node_resource_group" {
+  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
+}
+
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   for_each = { for np in var.additional_node_pools : np.name => np }
 
