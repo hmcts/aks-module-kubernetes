@@ -15,6 +15,13 @@ data "azurerm_user_assigned_identity" "aks" {
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
 }
 
+data "azurerm_user_assigned_identity" "kubelet_uami" {
+  name                = "aks-kubelet-${var.environment}-mi"
+  resource_group_name = data.azurerm_resource_group.genesis_rg.name
+
+  count = var.kubelet_uami_enabled ? 1 : 0
+}
+
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -58,8 +65,16 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   )
 
   identity {
-    type        = "UserAssigned"
+    type         = "UserAssigned"
     identity_ids = [data.azurerm_user_assigned_identity.aks.id]
+  }
+
+  dynamic "kubelet_identity" {
+    for_each = var.kubelet_uami_enabled != false ? [1] : []
+    content {
+      client_id = data.azurerm_user_assigned_identity.kubelet_uami[0].client_id
+      user_assigned_identity_id = data.azurerm_user_assigned_identity.kubelet_uami[0].object_id
+    }
   }
 
   oms_agent {
