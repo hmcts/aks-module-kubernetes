@@ -64,7 +64,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [data.azurerm_user_assigned_identity.aks.id]
+    identity_ids = [data.azurerm_user_assigned_identity.aks[0].id]
   }
 
   dynamic "kubelet_identity" {
@@ -136,7 +136,7 @@ data "azurerm_resource_group" "disks_resource_group" {
 
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
   count                = var.ptl_cluster ? 1 : 0
-  principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
+  principal_id         = data.azurerm_user_assigned_identity.aks[0].principal_id
   scope                = data.azurerm_resource_group.disks_resource_group.id
   role_definition_name = "Virtual Machine Contributor"
 }
