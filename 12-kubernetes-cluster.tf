@@ -6,10 +6,6 @@ data "azurerm_resource_group" "genesis_rg" {
   name = "genesis-rg"
 }
 
-data "azurerm_resource_group" "managed-identity-operator" {
-  name = "managed-identities-${var.environment}-rg"
-}
-
 data "azurerm_user_assigned_identity" "aks" {
   name                = "aks-${var.environment}-mi"
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
@@ -112,10 +108,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       windows_profile,
     ]
   }
-}
-
-data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
