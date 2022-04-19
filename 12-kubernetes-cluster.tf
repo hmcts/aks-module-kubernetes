@@ -13,6 +13,8 @@ data "azurerm_resource_group" "managed-identity-operator" {
 data "azurerm_user_assigned_identity" "aks" {
   name                = "aks-${var.environment}-mi"
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
+
+  count = var.kubelet_identity_enabled ? 1 : 0
 }
 
 data "azurerm_user_assigned_identity" "kubelet_uami" {
