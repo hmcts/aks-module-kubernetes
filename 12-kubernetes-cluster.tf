@@ -10,7 +10,7 @@ data "azurerm_user_assigned_identity" "aks" {
   name                = "aks-${var.environment}-mi"
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
 
-  count = var.kubelet_identity_enabled ? 1 : 0
+  count = var.kubelet_uami_enabled ? 1 : 0
 }
 
 data "azurerm_user_assigned_identity" "kubelet_uami" {
@@ -119,7 +119,7 @@ resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
   scope                = data.azurerm_user_assigned_identity.aks[0].id
   role_definition_name = "Managed Identity Operator"
 
-  count = var.kubelet_identity_enabled ? 1 : 0
+  count = var.kubelet_uami_enabled ? 1 : 0
 }
 
 resource "azurerm_role_assignment" "uami_rg_identity_operator" {
@@ -127,13 +127,13 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
   scope                = data.azurerm_resource_group.managed-identity-operator.id
   role_definition_name = "Managed Identity Operator"
 
-  count = var.kubelet_identity_enabled ? 1 : 0
+  count = var.kubelet_uami_enabled ? 1 : 0
 }
 
 data "azurerm_resource_group" "node_resource_group" {
   name = azurerm_kubernetes_cluster.kubernetes_cluster[0].node_resource_group
 
-  count = var.kubelet_identity_enabled ? 1 : 0
+  count = var.kubelet_uami_enabled ? 1 : 0
 }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
@@ -141,7 +141,7 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   scope                = data.azurerm_resource_group.node_resource_group[0].id
   role_definition_name = "Virtual Machine Contributor"
 
-  count = var.kubelet_identity_enabled ? 1 : 0
+  count = var.kubelet_uami_enabled ? 1 : 0
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {

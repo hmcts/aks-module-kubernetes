@@ -53,8 +53,3 @@ variable "kubelet_uami_enabled" {
   default     = false
   description = "Feature toggle flag to enable/disable the use of our own managed identity"
 }
-
-variable "kubelet_identity_enabled" {
-  default     = true
-  description = "Feature toggle flag to enable/disable the use of the kubelet identity"
-}
