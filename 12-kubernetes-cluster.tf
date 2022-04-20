@@ -112,7 +112,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_user_assigned_identity.aks.id
+  scope                = data.azurerm_user_assigned_identity.aks[0].id
   role_definition_name = "Managed Identity Operator"
 
   count = var.kubelet_identity_enabled ? 1 : 0
