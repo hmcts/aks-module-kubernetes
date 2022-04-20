@@ -131,7 +131,7 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
 }
 
 data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.kubernetes_cluster[0].node_resource_group
+  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
 
   count = var.kubelet_uami_enabled ? 1 : 0
 }
