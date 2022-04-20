@@ -20,6 +20,10 @@ data "azurerm_user_assigned_identity" "kubelet_uami" {
   count = var.kubelet_uami_enabled ? 1 : 0
 }
 
+data "azurerm_resource_group" "managed-identity-operator" {
+  name = "managed-identities-${var.environment}-rg"
+}
+
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -127,14 +131,14 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
 }
 
 data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
+  name = azurerm_kubernetes_cluster.kubernetes_cluster[0].node_resource_group
 
   count = var.kubelet_identity_enabled ? 1 : 0
 }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_resource_group.node_resource_group.id
+  scope                = data.azurerm_resource_group.node_resource_group[0].id
   role_definition_name = "Virtual Machine Contributor"
 
   count = var.kubelet_identity_enabled ? 1 : 0
