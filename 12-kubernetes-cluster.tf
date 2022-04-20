@@ -6,10 +6,6 @@ data "azurerm_resource_group" "genesis_rg" {
   name = "genesis-rg"
 }
 
-data "azurerm_resource_group" "managed-identity-operator" {
-  name = "managed-identities-${var.environment}-rg"
-}
-
 data "azurerm_user_assigned_identity" "aks" {
   name                = "aks-${var.environment}-mi"
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
@@ -20,6 +16,10 @@ data "azurerm_user_assigned_identity" "kubelet_uami" {
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
 
   count = var.kubelet_uami_enabled ? 1 : 0
+}
+
+data "azurerm_resource_group" "managed-identity-operator" {
+  name = "managed-identities-${var.environment}-rg"
 }
 
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
@@ -72,7 +72,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   dynamic "kubelet_identity" {
     for_each = var.kubelet_uami_enabled != false ? [1] : []
     content {
-      client_id = data.azurerm_user_assigned_identity.kubelet_uami[0].client_id
+      client_id                 = data.azurerm_user_assigned_identity.kubelet_uami[0].client_id
       user_assigned_identity_id = data.azurerm_user_assigned_identity.kubelet_uami[0].object_id
     }
   }
@@ -116,22 +116,24 @@ resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_user_assigned_identity.aks.id
   role_definition_name = "Managed Identity Operator"
+
+  count = var.kubelet_uami_enabled ? 0 : 1
 }
 
 resource "azurerm_role_assignment" "uami_rg_identity_operator" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.managed-identity-operator.id
   role_definition_name = "Managed Identity Operator"
-}
 
-data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
+  count = var.kubelet_uami_enabled ? 0 : 1
 }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_resource_group.node_resource_group.id
+  scope                = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
   role_definition_name = "Virtual Machine Contributor"
+
+  count = var.kubelet_uami_enabled ? 0 : 1
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
