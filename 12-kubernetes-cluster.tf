@@ -14,6 +14,7 @@ data "azurerm_user_assigned_identity" "aks" {
 data "azurerm_user_assigned_identity" "kubelet_uami" {
   name                = "aks-kubelet-${var.environment}-mi"
   resource_group_name = data.azurerm_resource_group.genesis_rg.name
+  location            = var.location
 
   count = var.kubelet_uami_enabled ? 1 : 0
 }
