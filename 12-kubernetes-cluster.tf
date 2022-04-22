@@ -133,8 +133,6 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
   role_definition_name = "Virtual Machine Contributor"
-
-  count = var.kubelet_uami_enabled ? 0 : 1
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
