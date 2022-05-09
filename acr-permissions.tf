@@ -19,7 +19,7 @@ data "azurerm_resource_group" "project_acr" {
     local.acr[var.project].resource_group_prefix,
   )
 
-  count = var.project_acr_enabled ? 1 : 0
+  count = var.project_acr_enabled && var.kubelet_uami_enabled == false ? 1 : 0
 }
 
 
@@ -29,7 +29,7 @@ resource "azurerm_role_assignment" "project_acrpull" {
   role_definition_name = "AcrPull"
   scope                = data.azurerm_resource_group.project_acr[0].id
 
-  count = var.project_acr_enabled ? 1 : 0
+  count = var.project_acr_enabled && var.kubelet_uami_enabled == false ? 1 : 0
 }
 
 // ==================
@@ -40,7 +40,7 @@ data "azurerm_resource_group" "global_acr" {
   provider = azurerm.global_acr
   name     = "rpe-acr-prod-rg"
 
-  count = var.global_acr_enabled ? 1 : 0
+  count = var.global_acr_enabled && var.kubelet_uami_enabled == false ? 1 : 0
 }
 
 resource "azurerm_role_assignment" "global_registry_acrpull" {
@@ -50,5 +50,5 @@ resource "azurerm_role_assignment" "global_registry_acrpull" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.global_acr[0].id
 
-  count = var.global_acr_enabled ? 1 : 0
+  count = var.global_acr_enabled && var.kubelet_uami_enabled == false ? 1 : 0
 }
