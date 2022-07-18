@@ -55,6 +55,6 @@ variable "kubelet_uami_enabled" {
 }
 
 variable "oms_agent_enabled" {
-  default     = true
+  default     = false
   description = "To toggle if oms_agent is required. This is for ContainerInsights"
 }
