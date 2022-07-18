@@ -78,10 +78,12 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     }
   }
 
-  oms_agent {
-    log_analytics_workspace_id = var.log_workspace_id
+  dynamic "oms_agent" {
+    for_each = var.oms_agent_enabled != false ? [1] : []
+    content {
+      log_analytics_workspace_id = var.log_workspace_id
+    }
   }
-
 
   kubernetes_version = var.kubernetes_cluster_version
 
