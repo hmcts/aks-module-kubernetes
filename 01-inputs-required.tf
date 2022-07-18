@@ -54,7 +54,7 @@ variable "kubelet_uami_enabled" {
   description = "Feature toggle flag to enable/disable the use of our own managed identity"
 }
 
-variable "oms_agent" {
+variable "oms_agent_enabled" {
   default     = false
   description = "To toggle if oms_agent is required. This is for ContainerInsights"
 }
