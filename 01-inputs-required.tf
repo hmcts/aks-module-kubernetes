@@ -58,3 +58,8 @@ variable "oms_agent_enabled" {
   default     = false
   description = "To toggle if oms_agent is required. This is for ContainerInsights"
 }
+
+variable "csi_driver_enabled" {
+  default     = false
+  description = "A toggle to deploy the csi driver as an add-on"
+}

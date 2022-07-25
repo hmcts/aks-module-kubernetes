@@ -106,6 +106,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
   }
 
+  key_vault_secrets_provider {
+    for_each                = var.csi_driver_enabled != false ? [1] : []
+    secret_rotation_enabled = true
+  }
+
   tags = var.tags
 
   lifecycle {
