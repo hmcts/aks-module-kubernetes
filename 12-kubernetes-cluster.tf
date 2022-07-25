@@ -107,9 +107,12 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   dynamic "key_vault_secrets_provider" {
-    for_each                 = var.csi_driver_enabled != false ? [1] : []
-    secret_rotation_enabled  = true
-    secret_rotation_interval = "5m"
+    for_each = var.csi_driver_enabled != false ? [1] : []
+
+    content {
+      secret_rotation_enabled  = true
+      secret_rotation_interval = "5m"
+    }
   }
 
   tags = var.tags
