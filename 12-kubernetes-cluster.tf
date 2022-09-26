@@ -122,8 +122,13 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       windows_profile,
     ]
   }
+  dynamic "automatic_channel_upgrade" {
+  for_each = var.enable_automatic_channel_upgrade_patch == true ? [1] : []
+  content {
+    automatic_channel_upgrade ="patch"
+  }
+}
 
-  automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : ""
 
 }
 
