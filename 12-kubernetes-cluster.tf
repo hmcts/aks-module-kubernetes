@@ -123,7 +123,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     ]
   }
 
-  automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? patch : none
+  automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : "none"
 
 }
 
