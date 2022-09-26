@@ -122,6 +122,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       windows_profile,
     ]
   }
+
+  automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? patch : none
+
 }
 
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
