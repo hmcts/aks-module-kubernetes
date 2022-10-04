@@ -40,6 +40,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
+  oidc_issuer_enabled = true
+
   sku_tier = var.sku_tier
   default_node_pool {
     name                         = var.enable_user_system_nodepool_split == true ? "system" : "nodepool"
