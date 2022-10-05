@@ -40,6 +40,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
+  oidc_issuer_enabled = true
+
   sku_tier = var.sku_tier
   default_node_pool {
     name                         = var.enable_user_system_nodepool_split == true ? "system" : "nodepool"
@@ -121,6 +123,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     ignore_changes = [
       windows_profile,
     ]
+    precondition {
+      // Error if enable_automatic_channel_upgrade_patch is true and the Kubernetes version includes the patch version
+      condition     = var.enable_automatic_channel_upgrade_patch != true || can(regex("^1\\.\\d\\d$", var.kubernetes_cluster_version))
+      error_message = "When automatic upgrades are enabled, kubernetes_cluster_version must only include major and minor versions, not the patch version e.g. 1.18 or 1.25"
+    }
   }
 
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
