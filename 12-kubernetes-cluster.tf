@@ -161,7 +161,7 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
-  for_each = { for np in var.additional_node_pools : np.name => np }
+  for_each = {for np in var.additional_node_pools : np.name => np}
 
   name                  = each.value.name
   kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
@@ -179,12 +179,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   tags                  = var.tags
   zones                 = var.availability_zones
 
-  dynamic "upgrade_settings" {
-    for_each = var.enable_recommended_max_surge == true ? [1] : []
-
-    content {
-      max_surge = "33%"
-    }
+  upgrade_settings {
+    max_surge = var.upgrade_max_surge
   }
 }
 

@@ -82,7 +82,7 @@ variable "enable_automatic_channel_upgrade_patch" {
   default     = false
 }
 
-variable "enable_recommended_max_surge" {
-  description = "Set the max surge when upgrading to 33% rather than the default 1"
-  default     = false
+variable "upgrade_max_surge" {
+  description = "Set the max surge when upgrading"
+  default     = "33%"
 }
