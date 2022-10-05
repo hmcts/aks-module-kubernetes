@@ -171,6 +171,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   vnet_subnet_id        = data.azurerm_subnet.aks.id
   tags                  = var.tags
   zones                 = var.availability_zones
+
+  dynamic "upgrade_settings" {
+    for_each = var.enable_recommended_max_surge == true ? [1] : []
+
+    content {
+      max_surge = "33%"
+    }
+  }
 }
 
 data "azurerm_resource_group" "disks_resource_group" {

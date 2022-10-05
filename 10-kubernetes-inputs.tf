@@ -81,3 +81,8 @@ variable "enable_automatic_channel_upgrade_patch" {
   description = "When set to true automatic patch updates will be enabled on the cluster"
   default     = false
 }
+
+variable "enable_recommended_max_surge" {
+  description = "Set the max surge when upgrading to 33% rather than the default 1"
+  default     = false
+}
