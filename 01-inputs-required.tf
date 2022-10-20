@@ -44,6 +44,7 @@ variable "ptl_cluster" {
 variable "enable_user_system_nodepool_split" {
   default = false
 }
+
 variable "availability_zones" {
   type    = list(any)
   default = []
@@ -62,4 +63,8 @@ variable "oms_agent_enabled" {
 variable "csi_driver_enabled" {
   default     = false
   description = "A toggle to deploy the csi driver as an add-on"
+}
+
+variable "workload_identity_enabled" {
+  default = false
 }
