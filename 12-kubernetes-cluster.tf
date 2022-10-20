@@ -40,7 +40,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
-  oidc_issuer_enabled = true
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = var.workload_identity_enabled
 
   sku_tier = var.sku_tier
   default_node_pool {
