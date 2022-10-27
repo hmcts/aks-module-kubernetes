@@ -244,12 +244,13 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 
 }
 
+# Azure Service Operator federated identity credential
+
 resource "azapi_resource" "federated_identity_credential" {
   schema_validation_enabled = false
   name                      = "aso-federated-credential"
   parent_id                 = data.azurerm_user_assigned_identity.sops_mi.principal_id
   type                      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
-  depends_on                = [module.kubernetes]
   location                  = var.location
   body = jsonencode({
     properties = {
