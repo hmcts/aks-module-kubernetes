@@ -7,5 +7,5 @@ output "kubelet_object_id" {
 }
 
 output "oidc_issuer_url" {
-  value = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].oidc_issuer_url
+  value = azurerm_kubernetes_cluster.kubernetes_cluster.oidc_issuer_url[0]
 }
