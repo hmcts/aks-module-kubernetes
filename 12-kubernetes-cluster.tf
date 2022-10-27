@@ -254,10 +254,15 @@ resource "azurerm_role_assignment" "Contributor" {
 
 resource "azapi_resource" "federated_identity_credential" {
   schema_validation_enabled = false
-  name                      = "aso-federated-credential"-"${var.cluster_number}"
-  parent_id                 = data.azurerm_user_assigned_identity.aks.id
-  type                      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
-  location                  = var.location
+  name = format("%s-%s-%s-%s",
+    var.project,
+    var.environment,
+    var.cluster_number,
+    var.service_shortname
+  )
+  parent_id = data.azurerm_user_assigned_identity.aks.id
+  type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
+  location  = var.location
   body = jsonencode({
     properties = {
       issuer    = azurerm_kubernetes_cluster.kubernetes_cluster.oidc_issuer_url
