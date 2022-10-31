@@ -68,3 +68,7 @@ variable "csi_driver_enabled" {
 variable "workload_identity_enabled" {
   default = false
 }
+
+variable "aso_settings_enabled" {
+  default = false
+}
