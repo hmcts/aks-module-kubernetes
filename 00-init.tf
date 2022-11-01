@@ -5,7 +5,7 @@ terraform {
       source                = "hashicorp/azurerm"
       configuration_aliases = [azurerm.hmcts-control, azurerm.acr, azurerm.global_acr]
     }
-     azapi = {
+    azapi = {
       source  = "Azure/azapi"
       version = "1.0.0"
     }
