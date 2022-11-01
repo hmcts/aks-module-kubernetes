@@ -253,7 +253,7 @@ resource "azurerm_role_assignment" "service_operator" {
   scope                = data.azurerm_subscription.subscription.id
 }
 
-resource "azapi_resource" "federated_identity_credential" {
+resource "azapi_resource" "service_operator_credential" {
   count                = var.aso_settings_enabled ? 1 : 0
   schema_validation_enabled = false
   name = format("%s-%s-%s-%s",
