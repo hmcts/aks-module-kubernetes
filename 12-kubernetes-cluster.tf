@@ -256,12 +256,7 @@ resource "azurerm_role_assignment" "service_operator" {
 resource "azapi_resource" "service_operator_credential" {
   count                = var.aso_settings_enabled ? 1 : 0
   schema_validation_enabled = false
-  name = format("%s-%s-%s-%s",
-    var.project,
-    var.environment,
-    var.cluster_number,
-    var.service_shortname
-  )
+  name = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}"
   parent_id = data.azurerm_user_assigned_identity.aks.id
   type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
   location  = var.location
