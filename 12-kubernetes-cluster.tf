@@ -263,7 +263,7 @@ resource "azapi_resource" "service_operator_credential" {
   body = jsonencode({
     properties = {
       issuer    = azurerm_kubernetes_cluster.kubernetes_cluster.oidc_issuer_url
-      subject   = "system:serviceaccount:azureserviceoperator-system:azureserviceoperator-system"
+      subject   = "system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default"
       audiences = ["api://AzureADTokenExchange"]
     }
   })
