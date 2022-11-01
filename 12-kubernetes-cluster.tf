@@ -247,19 +247,19 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 # Azure Service Operator federated identity credential and role assignment
 
 resource "azurerm_role_assignment" "service_operator" {
-  count                = var.aso_settings_enabled ? 1 : 0
+  count                = var.service_operator_settings_enabled ? 1 : 0
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
   role_definition_name = "Contributor"
   scope                = data.azurerm_subscription.subscription.id
 }
 
 resource "azapi_resource" "service_operator_credential" {
-  count                = var.aso_settings_enabled ? 1 : 0
+  count                     = var.service_operator_settings_enabled ? 1 : 0
   schema_validation_enabled = false
-  name = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}"
-  parent_id = data.azurerm_user_assigned_identity.aks.id
-  type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
-  location  = var.location
+  name                      = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}"
+  parent_id                 = data.azurerm_user_assigned_identity.aks.id
+  type                      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
+  location                  = var.location
   body = jsonencode({
     properties = {
       issuer    = azurerm_kubernetes_cluster.kubernetes_cluster.oidc_issuer_url
