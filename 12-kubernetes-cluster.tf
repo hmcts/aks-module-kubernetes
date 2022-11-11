@@ -155,8 +155,10 @@ data "azurerm_resource_group" "node_resource_group" {
   name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
 }
 
+resource "random_uuid" "node_infrastructure_update_scale_set" {}
 resource "azapi_resource" "node_infrastructure_update_scale_set" {
   type      = "Microsoft.Authorization/roleAssignments@2022-04-01"
+  name      = random_uuid.node_infrastructure_update_scale_set.result
   parent_id = data.azurerm_resource_group.node_resource_group.id
   body = jsonencode({
     properties = {
