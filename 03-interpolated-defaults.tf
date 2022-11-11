@@ -5,6 +5,10 @@ data "azurerm_role_definition" "builtin_role_definition" {
   scope = data.azurerm_subscription.subscription.id
 }
 
+data "azurerm_role_definition" "virtual_machine_contributor" {
+  name = "Virtual Machine Contributor"
+}
+
 locals {
   slug_location = lower(replace(var.location, " ", "."))
 }

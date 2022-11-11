@@ -155,6 +155,18 @@ data "azurerm_resource_group" "node_resource_group" {
   name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
 }
 
+resource "azapi_resource" "node_infrastructure_update_scale_set" {
+  type      = "Microsoft.Authorization/roleAssignments@2022-04-01"
+  parent_id = data.azurerm_resource_group.node_resource_group.id
+  body = jsonencode({
+    properties = {
+      principalId      = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+      principalType    = "ServicePrincipal"
+      roleDefinitionId = data.azurerm_role_definition.virtual_machine_contributor.id
+    }
+  })
+}
+
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_resource_group.node_resource_group.id
