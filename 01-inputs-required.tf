@@ -74,6 +74,6 @@ variable "service_operator_settings_enabled" {
 }
 
 variable "aks_version_checker_principal_id" {
-  default = ""
+  default     = ""
   description = "principal ID for the AKS version checker principal"
 }
