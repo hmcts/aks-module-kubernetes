@@ -183,6 +183,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   upgrade_settings {
     max_surge = var.upgrade_max_surge
   }
+  timeouts {
+    update = "180m"
+  }
+
 }
 
 data "azurerm_resource_group" "disks_resource_group" {
