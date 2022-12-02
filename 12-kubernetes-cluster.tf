@@ -164,6 +164,8 @@ resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
 #   scope                = data.azurerm_resource_group.node_resource_group.id
   scope                = "/subscriptions/${data.azurerm_subscription.subscription.subscription_id}/resourceGroups/${local.node_resource_group}"
   role_definition_name = "Virtual Machine Contributor"
+  
+  depends_on = azurerm_kubernetes_cluster.kubernetes_cluster
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
