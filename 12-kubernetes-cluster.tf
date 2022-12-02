@@ -2,6 +2,15 @@
 # Kubernetes Cluster
 #--------------------------------------------------------------
 
+locals {
+  node_resource_group = format("%s-%s-%s-%s-node-rg",
+    var.project,
+    var.environment,
+    var.cluster_number,
+    var.service_shortname
+  )
+}
+
 data "azurerm_resource_group" "genesis_rg" {
   name = "genesis-rg"
 }
@@ -33,12 +42,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
-  node_resource_group = format("%s-%s-%s-%s-node-rg",
-    var.project,
-    var.environment,
-    var.cluster_number,
-    var.service_shortname
-  )
+  node_resource_group = local.node_resource_group
 
   oidc_issuer_enabled       = true
   workload_identity_enabled = var.workload_identity_enabled
@@ -151,13 +155,14 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
   count = var.kubelet_uami_enabled ? 0 : 1
 }
 
-data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
-}
+# data "azurerm_resource_group" "node_resource_group" {
+#   name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
+# }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_resource_group.node_resource_group.id
+#   scope                = data.azurerm_resource_group.node_resource_group.id
+  scope                = "/subscriptions/${var.subscription_id}/resourceGroups/${var.node_resource_group}"
   role_definition_name = "Virtual Machine Contributor"
 }
 
