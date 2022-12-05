@@ -2,6 +2,10 @@
 # Kubernetes Cluster
 #--------------------------------------------------------------
 
+locals {
+  node_resource_group =  "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}-node-rg"
+}
+
 data "azurerm_resource_group" "genesis_rg" {
   name = "genesis-rg"
 }
@@ -33,12 +37,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
-  node_resource_group = format("%s-%s-%s-%s-node-rg",
-    var.project,
-    var.environment,
-    var.cluster_number,
-    var.service_shortname
-  )
+  node_resource_group = local.node_resource_group
 
   oidc_issuer_enabled       = true
   workload_identity_enabled = var.workload_identity_enabled
@@ -151,14 +150,19 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
   count = var.kubelet_uami_enabled ? 0 : 1
 }
 
-data "azurerm_resource_group" "node_resource_group" {
-  name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
-}
-
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_resource_group.node_resource_group.id
+  
+  # https://github.com/hmcts/aks-module-kubernetes/pull/81
+  # Semi hard-coded scope to remove dependency on getting the ID for the node resource group from the attributes
+  # of the cluster resource causing role assignments to be recreated and sometimes having to be 
+  # recreated manually.
+  scope                = "/subscriptions/${data.azurerm_subscription.subscription.subscription_id}/resourceGroups/${local.node_resource_group}"
   role_definition_name = "Virtual Machine Contributor"
+  
+  depends_on = [
+    azurerm_kubernetes_cluster.kubernetes_cluster
+  ]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
