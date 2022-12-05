@@ -155,13 +155,8 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
   count = var.kubelet_uami_enabled ? 0 : 1
 }
 
-# data "azurerm_resource_group" "node_resource_group" {
-#   name = azurerm_kubernetes_cluster.kubernetes_cluster.node_resource_group
-# }
-
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-#   scope                = data.azurerm_resource_group.node_resource_group.id
   scope                = "/subscriptions/${data.azurerm_subscription.subscription.subscription_id}/resourceGroups/${local.node_resource_group}"
   role_definition_name = "Virtual Machine Contributor"
   
