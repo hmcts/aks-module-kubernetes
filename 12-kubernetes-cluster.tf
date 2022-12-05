@@ -3,12 +3,7 @@
 #--------------------------------------------------------------
 
 locals {
-  node_resource_group = format("%s-%s-%s-%s-node-rg",
-    var.project,
-    var.environment,
-    var.cluster_number,
-    var.service_shortname
-  )
+  node_resource_group =  "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}-node-rg"
 }
 
 data "azurerm_resource_group" "genesis_rg" {
