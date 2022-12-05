@@ -152,6 +152,11 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+  
+  # https://github.com/hmcts/aks-module-kubernetes/pull/81
+  # Semi hard-coded scope to remove dependency on getting the ID for the node resource group from the attributes
+  # of the cluster resource causing role assignments to be recreated and sometimes having to be 
+  # recreated manually.
   scope                = "/subscriptions/${data.azurerm_subscription.subscription.subscription_id}/resourceGroups/${local.node_resource_group}"
   role_definition_name = "Virtual Machine Contributor"
   
