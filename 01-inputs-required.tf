@@ -77,3 +77,8 @@ variable "aks_version_checker_principal_id" {
   default     = ""
   description = "principal ID for the AKS version checker principal"
 }
+
+variable "aks_auto_shutdown_principal_id" {
+  default     = ""
+  description = "principal ID for the AKS Auto Shutdown principal"
+}
