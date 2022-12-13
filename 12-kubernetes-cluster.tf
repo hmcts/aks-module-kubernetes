@@ -18,11 +18,6 @@ data "azurerm_user_assigned_identity" "kubelet_uami" {
   count = var.kubelet_uami_enabled ? 1 : 0
 }
 
-data "azurerm_user_assigned_identity" "aks_auto_shutdown" {
-  name                = "aks-auto-shutdown-${var.environment}-${var.cluster_number}-mi"
-  resource_group_name = data.azurerm_resource_group.genesis_rg.name
-}
-
 data "azurerm_resource_group" "managed-identity-operator" {
   name = "managed-identities-${var.environment}-rg"
 }
