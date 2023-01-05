@@ -3,7 +3,7 @@
 #--------------------------------------------------------------
 
 locals {
-  node_resource_group =  "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}-node-rg"
+  node_resource_group = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}-node-rg"
 }
 
 data "azurerm_resource_group" "genesis_rg" {
@@ -151,8 +151,8 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
 }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
-  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  
+  principal_id = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+
   # https://github.com/hmcts/aks-module-kubernetes/pull/81
   # Semi hard-coded scope to remove dependency on getting the ID for the node resource group from the attributes
   # of the cluster resource causing role assignments to be recreated and sometimes having to be 
