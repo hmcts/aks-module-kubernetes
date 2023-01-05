@@ -193,14 +193,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-data "azurerm_resource_group" "disks_resource_group" {
-  name = "disks-${var.environment}-rg"
-}
-
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
   count                = var.ptl_cluster ? 1 : 0
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
-  scope                = data.azurerm_resource_group.disks_resource_group.id
+  scope                = var.disks_resource_group_id
   role_definition_name = "Virtual Machine Contributor"
 }
 
