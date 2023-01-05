@@ -3,7 +3,7 @@
 #--------------------------------------------------------------
 
 locals {
-  node_resource_group =  "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}-node-rg"
+  node_resource_group = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}-node-rg"
 }
 
 data "azurerm_resource_group" "genesis_rg" {
@@ -151,18 +151,14 @@ resource "azurerm_role_assignment" "uami_rg_identity_operator" {
 }
 
 resource "azurerm_role_assignment" "node_infrastructure_update_scale_set" {
-  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  
+  principal_id = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
+
   # https://github.com/hmcts/aks-module-kubernetes/pull/81
   # Semi hard-coded scope to remove dependency on getting the ID for the node resource group from the attributes
   # of the cluster resource causing role assignments to be recreated and sometimes having to be 
   # recreated manually.
   scope                = "/subscriptions/${data.azurerm_subscription.subscription.subscription_id}/resourceGroups/${local.node_resource_group}"
   role_definition_name = "Virtual Machine Contributor"
-  
-  depends_on = [
-    azurerm_kubernetes_cluster.kubernetes_cluster
-  ]
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
@@ -193,14 +189,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-data "azurerm_resource_group" "disks_resource_group" {
-  name = "disks-${var.environment}-rg"
-}
-
 resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
   count                = var.ptl_cluster ? 1 : 0
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
-  scope                = data.azurerm_resource_group.disks_resource_group.id
+  scope                = var.disks_resource_group_id
   role_definition_name = "Virtual Machine Contributor"
 }
 
