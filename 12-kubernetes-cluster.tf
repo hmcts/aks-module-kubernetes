@@ -245,10 +245,12 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 }
 
 # Azure Service Operator federated identity credential and role assignment
-
+resource "random_uuid" "aso_role_assignment_name" {
+  keepers = var.cluster_number
+}
 resource "azurerm_role_assignment" "service_operator" {
   count                = var.service_operator_settings_enabled ? 1 : 0
-  name                 = "aks-${var.environment}-${var.cluster_number}-aso"
+  name                 = var.random_uuid.aso_role_assignment_name
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
   role_definition_name = "Contributor"
   scope                = data.azurerm_subscription.subscription.id
