@@ -249,6 +249,7 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 resource "azurerm_role_assignment" "service_operator" {
   count                = var.service_operator_settings_enabled ? 1 : 0
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
+  description          = "ASO role assignment for ${var.cluster_number} ${var.environment} cluster."
   role_definition_name = "Contributor"
   scope                = data.azurerm_subscription.subscription.id
 }
