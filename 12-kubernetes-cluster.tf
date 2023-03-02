@@ -249,7 +249,7 @@ resource "random_uuid" "aso_name" {
 }
 resource "azurerm_role_assignment" "service_operator" {
   count                = var.service_operator_settings_enabled ? 1 : 0
-  name                 = var.random_uuid.aso_name.result
+  name                 = random_uuid.aso_name.result
   principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
   role_definition_name = "Contributor"
   scope                = data.azurerm_subscription.subscription.id
