@@ -244,15 +244,6 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 
 }
 
-# Azure Service Operator federated identity credential and role assignment
-
-resource "azurerm_role_assignment" "service_operator" {
-  count                = var.service_operator_settings_enabled ? 1 : 0
-  principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
-  role_definition_name = "Contributor"
-  scope                = data.azurerm_subscription.subscription.id
-}
-
 resource "azapi_resource" "service_operator_credential" {
   count                     = var.service_operator_settings_enabled ? 1 : 0
   schema_validation_enabled = false
