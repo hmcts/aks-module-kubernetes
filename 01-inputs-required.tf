@@ -82,7 +82,3 @@ variable "aks_auto_shutdown_principal_id" {
   default     = ""
   description = "principal ID for the AKS Auto Shutdown principal"
 }
-
-variable "disks_resource_group_id" {
-  description = "ID of the Resource Group where pre-created disks are be managed"
-}
