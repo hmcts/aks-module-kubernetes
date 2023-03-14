@@ -189,12 +189,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-resource "azurerm_role_assignment" "disks_resource_group_role_assignment" {
-  principal_id         = data.azurerm_user_assigned_identity.aks.principal_id
-  scope                = var.disks_resource_group_id
-  role_definition_name = "Virtual Machine Contributor"
-}
-
 resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_setting" {
   name                       = "DiagLogAnalytics"
   count                      = var.monitor_diagnostic_setting ? 1 : 0
