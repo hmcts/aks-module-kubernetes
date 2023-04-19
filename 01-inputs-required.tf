@@ -84,6 +84,6 @@ variable "aks_auto_shutdown_principal_id" {
 }
 
 variable "aks_role_definition" {
-  default = "Reader"
+  default     = "Reader"
   description = "Role definition for AKS version checker"
 }
