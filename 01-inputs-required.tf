@@ -82,3 +82,8 @@ variable "aks_auto_shutdown_principal_id" {
   default     = ""
   description = "principal ID for the AKS Auto Shutdown principal"
 }
+
+variable "aks_role_definition" {
+  default     = "Reader"
+  description = "Role definition for AKS version checker"
+}
