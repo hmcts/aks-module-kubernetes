@@ -65,14 +65,6 @@ variable "csi_driver_enabled" {
   description = "A toggle to deploy the csi driver as an add-on"
 }
 
-variable "workload_identity_enabled" {
-  default = false
-}
-
-variable "service_operator_settings_enabled" {
-  default = false
-}
-
 variable "aks_version_checker_principal_id" {
   default     = ""
   description = "principal ID for the AKS version checker principal"
