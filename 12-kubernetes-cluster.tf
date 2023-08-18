@@ -40,7 +40,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   node_resource_group = local.node_resource_group
 
   oidc_issuer_enabled       = true
-  workload_identity_enabled = var.workload_identity_enabled
+  workload_identity_enabled = true
 
   sku_tier = var.sku_tier
   default_node_pool {
@@ -238,7 +238,6 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 }
 
 resource "azapi_resource" "service_operator_credential" {
-  count                     = var.service_operator_settings_enabled ? 1 : 0
   schema_validation_enabled = false
   name                      = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}"
   parent_id                 = data.azurerm_user_assigned_identity.aks.id
