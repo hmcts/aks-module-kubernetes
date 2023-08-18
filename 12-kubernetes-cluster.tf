@@ -238,6 +238,7 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 }
 
 resource "azapi_resource" "service_operator_credential" {
+  count                     = 1
   schema_validation_enabled = false
   name                      = "${var.project}-${var.environment}-${var.cluster_number}-${var.service_shortname}"
   parent_id                 = data.azurerm_user_assigned_identity.aks.id
