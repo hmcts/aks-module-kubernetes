@@ -231,7 +231,7 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
 
     retention_policy {
       enabled = true
-      days    = 30
+      days    = 0
     }
   }
 
