@@ -41,6 +41,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
+  azure_policy_enabled      = var.azure_policy_enabled
 
   sku_tier = var.sku_tier
   default_node_pool {

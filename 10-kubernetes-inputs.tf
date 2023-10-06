@@ -86,3 +86,8 @@ variable "upgrade_max_surge" {
   description = "Set the max surge when upgrading"
   default     = "33%"
 }
+
+variable "azure_policy_enabled" {
+  description = "Enable the Azure Policy addon"
+  default     = false
+}
