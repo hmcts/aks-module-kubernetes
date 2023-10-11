@@ -191,10 +191,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 }
 
 resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_setting" {
-  name                       = "DiagLogAnalytics"
-  count                      = var.monitor_diagnostic_setting ? 1 : 0
-  target_resource_id         = azurerm_kubernetes_cluster.kubernetes_cluster.id
-  log_analytics_workspace_id = var.log_workspace_id
+  name                           = "DiagLogAnalytics"
+  count                          = var.monitor_diagnostic_setting ? 1 : 0
+  target_resource_id             = azurerm_kubernetes_cluster.kubernetes_cluster.id
+  log_analytics_workspace_id     = var.log_workspace_id
+  log_analytics_destination_type = "Dedicated"
 
   log {
     category = "kube-apiserver"
