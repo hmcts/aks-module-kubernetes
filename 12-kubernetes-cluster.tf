@@ -22,10 +22,6 @@ data "azurerm_user_assigned_identity" "kubelet_uami" {
   count = var.kubelet_uami_enabled ? 1 : 0
 }
 
-data "azurerm_resource_group" "managed-identity-operator" {
-  name = "managed-identities-${var.environment}-rg"
-}
-
 resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -138,14 +134,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
   principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
   scope                = data.azurerm_user_assigned_identity.aks.id
-  role_definition_name = "Managed Identity Operator"
-
-  count = var.kubelet_uami_enabled ? 0 : 1
-}
-
-resource "azurerm_role_assignment" "uami_rg_identity_operator" {
-  principal_id         = azurerm_kubernetes_cluster.kubernetes_cluster.kubelet_identity[0].object_id
-  scope                = data.azurerm_resource_group.managed-identity-operator.id
   role_definition_name = "Managed Identity Operator"
 
   count = var.kubelet_uami_enabled ? 0 : 1
