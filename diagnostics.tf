@@ -37,7 +37,7 @@ data "azurerm_storage_account" "diagnostics" {
   resource_group_name = "lz-${var.environment}-rg"
 }
 
-resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_setting" {
+resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_setting_sa" {
   name                           = "aks-storage"
   count                          = var.monitor_diagnostic_setting ? (var.environment == "prod" ? 1 : 0) : 0
   target_resource_id             = azurerm_kubernetes_cluster.kubernetes_cluster.id
