@@ -30,10 +30,14 @@ resource "azurerm_monitor_diagnostic_setting" "kubernetes_cluster_diagnostic_set
   }
 }
 
+locals {
+  businessArea = var.project == "ss" ? "sds": var.project
+}
+
 data "azurerm_storage_account" "diagnostics" {
   count = var.monitor_diagnostic_setting ? (var.environment == "prod" ? 1 : 0) : 0
 
-  name                = "hmcts${var.project}diag${var.environment}"
+  name                = "hmcts${local.businessArea}diag${var.environment}"
   resource_group_name = "lz-${var.environment}-rg"
 }
 
