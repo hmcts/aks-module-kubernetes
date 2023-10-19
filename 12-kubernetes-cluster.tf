@@ -158,7 +158,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
   enable_auto_scaling   = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
   mode                  = lookup(each.value, "mode", "User")
-  eviction_policy       = lookup(each.value, "eviction_policy", "Delete")
   priority              = lookup(each.value, "priority", "Regular")
   spot_max_price        = lookup(each.value, "spot_max_price", "-1")
   min_count             = each.value.min_count
