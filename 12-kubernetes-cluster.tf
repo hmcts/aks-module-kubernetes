@@ -161,7 +161,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   eviction_policy       = lookup(each.value, "eviction_policy", "Delete")
   priority              = lookup(each.value, "priority", "Regular")
   spot_max_price        = lookup(each.value, "spot_max_price", "-1")
-  node_labels           = tomap(lookup(each.value, "node_labels", each.value.name))
   min_count             = each.value.min_count
   max_count             = each.value.max_count
   max_pods              = lookup(each.value, "max_pods", "30")
