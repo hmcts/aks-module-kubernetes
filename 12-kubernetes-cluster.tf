@@ -171,8 +171,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   tags                  = var.tags
   zones                 = var.availability_zones
 
-  upgrade_settings {
-    max_surge = var.upgrade_max_surge
+  dynamic upgrade_settings {
+    for_each =  each.value.name != "spotinstance" ? [1] : []
+      max_surge = var.upgrade_max_surge
   }
   timeouts {
     update = "180m"
