@@ -177,3 +177,30 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   }
 
 }
+
+resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
+  name           = "microsoft-flux-extension"
+  cluster_id     = azurerm_kubernetes_cluster.kubernetes_cluster.id
+  extension_type = "microsoft.flux"
+}
+
+resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" {
+  name       = "microsoft-flux-configuration"
+  cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
+  namespace  = "flux"
+
+  git_repository {
+    url             = "https://raw.githubusercontent.com/hmcts/${var.project}-flux-config/master"
+    reference_type  = "branch"
+    reference_value = "master"
+  }
+
+  kustomizations {
+    name = "flux-system"
+    path = ".apps/flux-system/base"
+  }
+
+  depends_on = [
+    azurerm_kubernetes_cluster_extension.microsoft_flux_extension
+  ]
+}
