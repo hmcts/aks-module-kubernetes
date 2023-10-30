@@ -91,3 +91,7 @@ variable "azure_policy_enabled" {
   description = "Enable the Azure Policy addon"
   default     = false
 }
+
+variable "flux_system" {
+  type        = string
+}
