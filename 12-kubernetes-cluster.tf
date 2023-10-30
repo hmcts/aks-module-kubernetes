@@ -178,7 +178,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-variable "flux_system" {
+variable "flux_project" {
   type        = string
 }
 
