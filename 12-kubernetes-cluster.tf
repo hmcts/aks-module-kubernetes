@@ -178,6 +178,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
+flux_project = (var.project == "ss" ? "sds" : "cft")
+
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
   cluster_id     = azurerm_kubernetes_cluster.kubernetes_cluster.id
@@ -190,7 +192,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
   namespace  = "flux-system"
 
   git_repository {
-    url             = "https://raw.githubusercontent.com/hmcts/${var.project}-flux-config/master"
+    url             = "https://raw.githubusercontent.com/hmcts/${var.flux_project}-flux-config/master"
     reference_type  = "branch"
     reference_value = "master"
   }
