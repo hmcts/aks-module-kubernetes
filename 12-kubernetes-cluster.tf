@@ -187,7 +187,7 @@ resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
 resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" {
   name       = "microsoft-flux-configuration"
   cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
-  namespace  = "flux"
+  namespace  = "flux-system"
 
   git_repository {
     url             = "https://raw.githubusercontent.com/hmcts/${var.project}-flux-config/master"
