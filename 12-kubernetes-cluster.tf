@@ -180,9 +180,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 variable "flux_project" {
   type        = string
+  default     = "sds"
 }
-
-flux_project = "sds"
 
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
