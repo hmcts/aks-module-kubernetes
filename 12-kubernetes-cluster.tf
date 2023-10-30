@@ -178,7 +178,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-var.flux_project = "${var.project == "ss" ? "sds" : "cft"}"
+var.flux_project = "sds"
 
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
