@@ -180,8 +180,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 variable "flux_project" {
   type        = string
-  default     = contains("ss", var.project) ? "sds" :  "cft"
+  default     = "cft"
 }
+
+flux_project = contains("ss", var.project) ? "sds" :  "cft"
 
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
