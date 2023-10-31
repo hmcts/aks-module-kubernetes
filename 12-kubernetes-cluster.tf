@@ -190,7 +190,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
   namespace  = "flux-system"
 
   git_repository {
-    url             = "git::https://github.com/hmcts/${contains(["ss"], var.project) ? "sds" :  "cnp"}-flux-config.git?ref=master"
+    url             = "ssh://git@github.com/hmcts/${contains(["ss"], var.project) ? "sds" :  "cnp"}-flux-config"
     reference_type  = "branch"
     reference_value = "master"
   }
