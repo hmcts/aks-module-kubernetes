@@ -32,6 +32,14 @@ variable "monitor_diagnostic_setting" {
   default = true
 }
 
+variable "kube_audit_admin_logs_enabled" {
+  default = false
+}
+
+variable "monitor_diagnostic_setting_metrics" {
+  default = false
+}
+
 variable "sku_tier" {
   default     = "Free"
   description = "Free or Paid (which includes the uptime SLA)"
