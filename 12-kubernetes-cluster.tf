@@ -158,6 +158,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
   enable_auto_scaling   = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
   mode                  = lookup(each.value, "mode", "User")
+  priority              = lookup(each.value, "priority", "Regular")
+  spot_max_price        = lookup(each.value, "spot_max_price", "-1")
   min_count             = each.value.min_count
   max_count             = each.value.max_count
   max_pods              = lookup(each.value, "max_pods", "30")
@@ -169,8 +171,11 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   tags                  = var.tags
   zones                 = var.availability_zones
 
-  upgrade_settings {
-    max_surge = var.upgrade_max_surge
+  dynamic "upgrade_settings" {
+    for_each =  each.value.name != "spotinstance" ? [1] : []
+    content {
+      max_surge = var.upgrade_max_surge
+    }
   }
   timeouts {
     update = "180m"
