@@ -193,6 +193,8 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
     url             = "github.com/hmcts/${contains(["ss"], var.project) ? "sds" :  "cnp"}-flux-config"
     reference_type  = "branch"
     reference_value = "master"
+    ssh_private_key_base64 = data.azurerm_key_vault_secret.flux-ssh-git-key-private.value
+    ssh_known_hosts_base64 = data.azurerm_key_vault_secret.flux-ssh-git-key-public.value
   }
 
   kustomizations {
