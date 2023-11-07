@@ -178,10 +178,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-variable "git_private_ssh_key" {
-  default = base64encode(file(data.azurerm_key_vault_secret.flux-ssh-git-key-private.value))
-}
-
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
   cluster_id     = azurerm_kubernetes_cluster.kubernetes_cluster.id
