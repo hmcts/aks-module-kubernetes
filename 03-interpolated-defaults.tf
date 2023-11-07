@@ -42,13 +42,13 @@ data "azurerm_key_vault_secret" "kubernetes_cluster_client_secret" {
 data "azurerm_key_vault_secret" "flux-ssh-git-key-private" {
   provider     = azurerm.hmcts-control
   name         = "flux-ssh-git-key-private"
-  key_vault_id = base64encode(file(data.azurerm_key_vault.hmcts_access_vault.id))
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_key_vault_secret" "flux-ssh-git-key-public" {
   provider     = azurerm.hmcts-control
   name         = "flux-ssh-git-key-public"
-  key_vault_id = base64encode(file(data.azurerm_key_vault.hmcts_access_vault.id))
+  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
 data "azurerm_client_config" "current" {}
