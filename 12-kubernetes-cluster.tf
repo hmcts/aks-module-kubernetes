@@ -194,7 +194,6 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
     reference_type  = "branch"
     reference_value = "master"
     local_auth_reference = "git-credentials"
-    ssh_private_key_base64 = base64encode(data.azurerm_key_vault_secret.flux-ssh-git-key-private.value)
   }
 
   kustomizations {
