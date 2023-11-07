@@ -182,10 +182,6 @@ variable "git_private_ssh_key" {
   default = base64encode(file(data.azurerm_key_vault_secret.flux-ssh-git-key-private.value))
 }
 
-variable "git_public_ssh_key" {
-  default = base64encode(file(data.azurerm_key_vault_secret.flux-ssh-git-key-public.value))
-}
-
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
   cluster_id     = azurerm_kubernetes_cluster.kubernetes_cluster.id
@@ -201,8 +197,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
     url             = "https://github.com/hmcts/${contains(["ss"], var.project) ? "sds" :  "cnp"}-flux-config"
     reference_type  = "branch"
     reference_value = "master"
-    ssh_private_key_base64 = git_private_ssh_key
-    ssh_known_hosts_base64 = git_public_ssh_key
+    ssh_private_key_base64 = base64encode(file(data.azurerm_key_vault_secret.flux-ssh-git-key-public.value))
   }
 
   kustomizations {

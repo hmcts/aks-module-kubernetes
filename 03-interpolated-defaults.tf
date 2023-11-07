@@ -45,10 +45,4 @@ data "azurerm_key_vault_secret" "flux-ssh-git-key-private" {
   key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
 }
 
-data "azurerm_key_vault_secret" "flux-ssh-git-key-public" {
-  provider     = azurerm.hmcts-control
-  name         = "flux-ssh-git-key-public"
-  key_vault_id = data.azurerm_key_vault.hmcts_access_vault.id
-}
-
 data "azurerm_client_config" "current" {}
