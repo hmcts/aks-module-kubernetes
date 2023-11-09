@@ -198,7 +198,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
 
   kustomizations {
     name = "flux-system"
-    path = "./apps/flux-system/base"
+    path = "./apps/flux-system/sbox/01"
   }
 
   depends_on = [
