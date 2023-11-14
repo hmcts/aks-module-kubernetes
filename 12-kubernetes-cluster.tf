@@ -178,6 +178,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
+resource "kubernetes_secret" "git-credentials" {
+  metadata {
+    name = "basic-auth"
+  }
+
+  type = "kubernetes.io/basic-auth"
+}
+
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
   cluster_id     = azurerm_kubernetes_cluster.kubernetes_cluster.id
@@ -198,7 +206,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
 
   kustomizations {
     name = "flux-system"
-    path = "./clusters/sbox/01"
+    path = "./clusters/${environment}/01"
   }
 
   depends_on = [
