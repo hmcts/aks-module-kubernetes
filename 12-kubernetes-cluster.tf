@@ -206,7 +206,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
 
   kustomizations {
     name = "flux-system"
-    path = "./clusters/${var.environment}/${var.cluster}"
+    path = "./clusters/${var.environment}/${var.cluster_number}"
   }
 
   depends_on = [
