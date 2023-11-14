@@ -185,21 +185,3 @@ resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   extension_type = "microsoft.flux"
 }
 
-resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" {
-  name       = "microsoft-flux-configuration"
-  cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
-  namespace  = "flux-system"
-
-  git_repository {
-    url             = "https://github.com/hmcts/${contains(["ss"], var.project) ? "sds" :  "cnp"}-flux-config"
-    reference_type  = "branch"
-    reference_value = "DTSPO-8700"
-    local_auth_reference = "git-credentials"
-  }
-
-
-
-  depends_on = [
-    azurerm_kubernetes_cluster_extension.microsoft_flux_extension
-  ]
-}
