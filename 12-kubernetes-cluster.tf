@@ -178,13 +178,6 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
 
 }
 
-resource "kubernetes_secret" "git-credentials" {
-  metadata {
-    name = "basic-auth"
-  }
-
-  type = "kubernetes.io/basic-auth"
-}
 
 resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   name           = "microsoft-flux-extension"
