@@ -197,10 +197,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
     local_auth_reference = "git-credentials"
   }
 
-  kustomizations {
-    name = "flux-system"
-    path = "./clusters/${var.environment}/${var.cluster_number}"
-  }
+
 
   depends_on = [
     azurerm_kubernetes_cluster_extension.microsoft_flux_extension
