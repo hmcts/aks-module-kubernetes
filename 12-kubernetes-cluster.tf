@@ -193,7 +193,7 @@ resource "azurerm_kubernetes_flux_configuration" "microsoft_flux_configuration" 
   git_repository {
     url             = "https://github.com/hmcts/${contains(["ss"], var.project) ? "sds" :  "cnp"}-flux-config"
     reference_type  = "branch"
-    reference_value = "DTSPO-8700
+    reference_value = "DTSPO-8700"
   }
 
   kustomizations {
