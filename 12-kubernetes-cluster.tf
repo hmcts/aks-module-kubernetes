@@ -184,7 +184,7 @@ resource "azurerm_kubernetes_cluster_extension" "microsoft_flux_extension" {
   cluster_id     = azurerm_kubernetes_cluster.kubernetes_cluster.id
   extension_type = "microsoft.flux"
   configuration_settings = [
-    multiTenancy.enforce = false
+    multiTenancy.enforce = false,
   ]
 }
 
