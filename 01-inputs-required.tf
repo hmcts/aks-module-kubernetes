@@ -73,7 +73,7 @@ variable "csi_driver_enabled" {
   description = "A toggle to deploy the csi driver as an add-on"
 }
 
-variable "enable_node_os_channel_upgrade" {
+variable "node_os_channel_upgrade" {
   default = false
   description = "Feature toggle flag to enable when nodes upgrade"
 }

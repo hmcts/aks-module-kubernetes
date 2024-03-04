@@ -115,9 +115,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   dynamic "node_os_channel_upgrade" {
-    for_each = var.enable_node_os_channel_upgrade != false ? [1] : []
+    for_each = var.node_os_channel_upgrade != false ? [1] : []
     content {
-      node_os_channel_upgrade =  var.enable_node_os_channel_upgrade ? "NodeImage" : null
+      node_os_channel_upgrade =  var.node_os_channel_upgrade ? "NodeImage" : null
     }
   }
 
