@@ -73,11 +73,6 @@ variable "csi_driver_enabled" {
   description = "A toggle to deploy the csi driver as an add-on"
 }
 
-variable "node_os_channel_upgrade" {
-  default = false
-  description = "Feature toggle flag to enable when nodes upgrade"
-}
-
 variable "aks_version_checker_principal_id" {
   default     = ""
   description = "principal ID for the AKS version checker principal"

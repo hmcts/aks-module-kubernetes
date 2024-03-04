@@ -112,14 +112,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       secret_rotation_enabled  = true
       secret_rotation_interval = "5m"
     }
-  }
-
-  dynamic "node_os_channel_upgrade" {
-    for_each = var.node_os_channel_upgrade != false ? [1] : []
-    content {
-      node_os_channel_upgrade =  var.node_os_channel_upgrade ? "NodeImage" : null
-    }
-  }
+  } 
 
   tags = var.tags
 
@@ -135,7 +128,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
-
+  node_os_channel_upgrade = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
 }
 
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {

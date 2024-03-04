@@ -82,6 +82,11 @@ variable "enable_automatic_channel_upgrade_patch" {
   default     = false
 }
 
+variable "enable_node_os_channel_upgrade_nodeimage" {
+  default = false
+  description = "Feature toggle flag when set to true sets node_os_upgrade to NodeImage"
+}
+
 variable "upgrade_max_surge" {
   description = "Set the max surge when upgrading"
   default     = "33%"
