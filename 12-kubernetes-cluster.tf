@@ -112,7 +112,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       secret_rotation_enabled  = true
       secret_rotation_interval = "5m"
     }
-  } 
+  }
 
   tags = var.tags
 
