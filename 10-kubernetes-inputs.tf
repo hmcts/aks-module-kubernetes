@@ -83,7 +83,7 @@ variable "enable_automatic_channel_upgrade_patch" {
 }
 
 variable "enable_node_os_channel_upgrade_nodeimage" {
-  default = false
+  default     = false
   description = "Feature toggle flag when set to true sets node_os_upgrade to NodeImage"
 }
 
