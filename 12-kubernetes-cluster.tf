@@ -128,7 +128,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   }
 
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
-
+  node_os_channel_upgrade   = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
 }
 
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
@@ -172,7 +172,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   zones                 = var.availability_zones
 
   dynamic "upgrade_settings" {
-    for_each =  each.value.name != "spotinstance" ? [1] : []
+    for_each = each.value.name != "spotinstance" ? [1] : []
     content {
       max_surge = var.upgrade_max_surge
     }
