@@ -125,21 +125,22 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       condition     = var.enable_automatic_channel_upgrade_patch != true || can(regex("^1\\.\\d\\d$", var.kubernetes_cluster_version))
       error_message = "When automatic upgrades are enabled, kubernetes_cluster_version must only include major and minor versions, not the patch version e.g. 1.18 or 1.25"
     }
+    precondition {
+      condition = var.node_os_maintenance_window_duration != null && var.node_os_maintenance_window_duration < 4
+      error_message = "Duration must be at least 4 hour long"
+    }
   }
 
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
   node_os_channel_upgrade   = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
 
-  dynamic "maintenance_window_node_os" {
-    for_each = var.enable_node_os_channel_upgrade_nodeimage != false ? [1] : [0]
-    content {
-      duration    = var.node_os_maintenance_window_duration
-      frequency   = var.node_os_maintenance_window_frequency
-      day_of_week = var.node_os_maintenance_window_frequency != "Daily" ? var.node_os_maintenance_window_day_of_week : null
-      interval    = var.node_os_maintenance_window_interval
-      start_time  = var.node_os_maintenance_window_start_time
-      utc_offset  = var.node_os_maintenance_window_utc_offset
-    }
+  maintenance_window_node_os {
+    duration    = var.node_os_maintenance_window_duration 
+    frequency   = var.node_os_maintenance_window_frequency
+    day_of_week = var.node_os_maintenance_window_frequency != "Daily" ? var.node_os_maintenance_window_day_of_week : null
+    interval    = var.node_os_maintenance_window_interval
+    start_time  = var.node_os_maintenance_window_start_time
+    utc_offset  = var.node_os_maintenance_window_utc_offset
   }
 }
 
