@@ -99,30 +99,35 @@ variable "azure_policy_enabled" {
 
 variable "node_os_maintenance_window_duration" {
   description = "Duration of maintenance window"
-  default = null
+  default     = null
 }
 
 variable "node_os_maintenance_window_frequency" {
-  description = "Frequency of maintenance window"  
-  default = null
+  description = "Frequency of maintenance window"
+  default     = null
 }
 
 variable "node_os_maintenance_window_day_of_week" {
   description = "The day of the week for the maintenance run. Required in combination with weekly frequency. "
-  default = null
+  default     = null
 }
 
 variable "node_os_maintenance_window_interval" {
-  description = "The interval for maintenance runs"  
-  default = null
+  description = "The interval for maintenance runs"
+  default     = null
 }
 
 variable "node_os_maintenance_window_start_time" {
-  description = "Start time of maintenance run format HH:mm"  
-  default = null
+  description = "Start time of maintenance run format HH:mm"
+  default     = null
 }
 
 variable "node_os_maintenance_window_utc_offset" {
-  description = "Used to adjust time zome of start time, +/-HH:mm"  
-  default = null
+  description = "Used to adjust time zome of start time, +/-HH:mm"
+  default     = null
+}
+
+variable "node_os_maintenance_window_start_date" {
+  description = "Date when maintenance window will start"
+  default     = null
 }
