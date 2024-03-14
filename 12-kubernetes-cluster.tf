@@ -165,7 +165,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   max_pods              = lookup(each.value, "max_pods", "30")
   os_type               = lookup(each.value, "os_type", "Linux")
   os_disk_type          = "Ephemeral"
-  eviction_policy       = lookup(each.value, "eviction_policy",  "null")
+  eviction_policy       = lookup(each.value, "eviction_policy",  "Delete")
   node_taints           = each.value.node_taints
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
