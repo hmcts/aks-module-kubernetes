@@ -129,6 +129,17 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
   node_os_channel_upgrade   = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
+
+  dynamic "maintenance_window_node_os" {
+    for_each = var.enable_node_os_channel_upgrade_nodeimage == true ? [1] : [0]
+    content {
+      frequency  = "Daily"
+      interval   = 1
+      start_time = "16:00"
+      utc_offset = "+00:00"
+      duration   = 4
+    }
+  }
 }
 
 resource "azurerm_role_assignment" "genesis_managed_identity_operator" {
