@@ -130,23 +130,15 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
   node_os_channel_upgrade   = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
 
-  # dynamic "maintenance_window_node_os" {
-  #   for_each = var.enable_node_os_channel_upgrade_nodeimage != false ? [1] : [0]
-  #   content {
-  #     duration   = 4
-  #     frequency  = "Daily"
-  #     interval   = 1
-  #     start_time = "16:00"
-  #     utc_offset = "+00:00"
-  #   }
-  # }
-
-  maintenance_window_node_os {
-    duration   = 4
-    frequency  = "Daily"
-    interval   = 1
-    start_time = "16:00"
-    utc_offset = "+00:00"
+  dynamic "maintenance_window_node_os" {
+    for_each = var.enable_node_os_channel_upgrade_nodeimage != false ? [1] : [0]
+    content {
+      duration   = 4
+      frequency  = "Daily"
+      interval   = 1
+      start_time = "16:00"
+      utc_offset = "+00:00"
+    }
   }
 }
 
