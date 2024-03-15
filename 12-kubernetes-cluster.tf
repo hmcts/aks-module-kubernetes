@@ -126,7 +126,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       error_message = "When automatic upgrades are enabled, kubernetes_cluster_version must only include major and minor versions, not the patch version e.g. 1.18 or 1.25"
     }
     precondition {
-      condition     =  var.enable_node_os_channel_upgrade_nodeimage == true && var.node_os_maintenance_window_duration >= 4 && var.node_os_maintenance_window_duration != null
+      condition     = var.node_os_maintenance_window_duration >= 4 && var.node_os_maintenance_window_duration != null
       error_message = "Duration must be at least 4 hours long"
     }
   }
