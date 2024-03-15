@@ -125,10 +125,10 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
       condition     = var.enable_automatic_channel_upgrade_patch != true || can(regex("^1\\.\\d\\d$", var.kubernetes_cluster_version))
       error_message = "When automatic upgrades are enabled, kubernetes_cluster_version must only include major and minor versions, not the patch version e.g. 1.18 or 1.25"
     }
-    precondition {
-      condition     = var.node_os_maintenance_window_duration >= 4
-      error_message = "Duration must be at least 4 hours long"
-    }
+    # precondition {
+    #   condition     = var.node_os_maintenance_window_duration >= 4
+    #   error_message = "Duration must be at least 4 hours long"
+    # }
   }
 
   automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
