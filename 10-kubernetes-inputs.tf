@@ -98,18 +98,18 @@ variable "azure_policy_enabled" {
 }
 
 variable "node_os_maintenance_window_duration" {
-  description = "Duration of maintenance window"
-  default     = null
+  description = "Duration of maintenance window in hours"
+  default     = 4
 }
 
 variable "node_os_maintenance_window_frequency" {
-  description = "Frequency of maintenance window"
-  default     = null
+  description = "Frequency of maintenance window, repeat every day, week or month"
+  default     = "Daily"
 }
 
 variable "node_os_maintenance_window_interval" {
   description = "The interval for maintenance runs"
-  default     = null
+  default     = 1
 }
 
 variable "node_os_maintenance_window_start_time" {
