@@ -135,6 +135,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     content {
       duration   = var.node_os_maintenance_window_duration
       frequency  = var.node_os_maintenance_window_frequency
+      day_of_week = var.node_os_maintenance_window_frequency == "Weekly" ? var.node_os_maintenance_window_day_of_week : null
       interval   = var.node_os_maintenance_window_interval
       start_time = var.node_os_maintenance_window_start_time
       utc_offset = var.node_os_maintenance_window_utc_offset
