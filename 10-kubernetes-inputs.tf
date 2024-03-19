@@ -102,7 +102,7 @@ variable "node_os_maintenance_window_duration" {
   default     = 4
 
     validation {
-    condition     = var.node_os_maintenance_window_duration < 4
+    condition     = var.node_os_maintenance_window_duration >= 4
     error_message = "Maintenance window duration must be at least 4 hours when node_os_channel_upgrade is enabled."
   }
 }
