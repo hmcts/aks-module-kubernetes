@@ -128,7 +128,7 @@ variable "node_os_maintenance_window_interval" {
   default     = 1
 
   validation {
-    condition = var.node_os_maintenance_window_duration >= 1
+    condition = var.node_os_maintenance_window_interval >= 1
     error_message = "Maintenance window interval must be at least 1."
   }
 }
