@@ -133,7 +133,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   dynamic "maintenance_window_node_os" {
     for_each = var.enable_node_os_channel_upgrade_nodeimage == true ? [1] : []
     content {
-      duration   = var.node_os_maintenance_window_duration >= 4 ? var.node_os_maintenance_window_duration : 4
+      duration   = var.node_os_maintenance_window_duration
       frequency  = var.node_os_maintenance_window_frequency
       interval   = var.node_os_maintenance_window_interval
       start_time = var.node_os_maintenance_window_start_time
