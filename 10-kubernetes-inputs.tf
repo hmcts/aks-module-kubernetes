@@ -116,7 +116,7 @@ variable "node_os_maintenance_window_frequency" {
   default     = "Daily"
 
   validation {
-    condition     = var.node_os_maintenance_window_frequency != "Daily" || var.node_os_maintenance_window_frequency != "Weekly"
+    condition     = var.node_os_maintenance_window_frequency == "Daily" || var.node_os_maintenance_window_frequency == "Weekly"
     error_message = "Maintenance window frequency must be set to 'Daily' or 'Weekly'."
   }
 }
