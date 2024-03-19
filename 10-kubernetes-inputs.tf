@@ -98,6 +98,8 @@ variable "azure_policy_enabled" {
 }
 
 variable "node_os_maintenance_window_duration" {
+  type = number
+
   description = "Duration of maintenance window in hours"
   default     = 4
 
@@ -108,26 +110,46 @@ variable "node_os_maintenance_window_duration" {
 }
 
 variable "node_os_maintenance_window_frequency" {
-  description = "Frequency of maintenance window, repeat every day, week or month"
+  type = string
+
+  description = "Frequency of maintenance window, Daily or Weekly"
   default     = "Daily"
+
+  validation {
+    condition     = var.node_os_maintenance_window_frequency != "Daily" || var.node_os_maintenance_window_frequency != "Weekly"
+    error_message = "Maintenance window frequency must be set to 'Daily' or 'Weekly'."
+  }
 }
 
 variable "node_os_maintenance_window_interval" {
+  type = number
+
   description = "The interval for maintenance runs"
   default     = 1
+
+  validation {
+    condition = var.node_os_maintenance_window_duration >= 1
+    error_message = "Maintenance window interval must be at least 1."
+  }
 }
 
 variable "node_os_maintenance_window_start_time" {
-  description = "Start time of maintenance run format HH:mm"
+  type = string
+
+  description = "Start time of maintenance run 24hr format 'HH:mm' eg '16:30'."
   default     = null
 }
 
 variable "node_os_maintenance_window_utc_offset" {
-  description = "Used to adjust time zome of start time, +/-HH:mm"
+  type = string
+
+  description = "Used to adjust time zome of start time 24hr format, '+/-HH:mm' eg '+01:00'."
   default     = null
 }
 
 variable "node_os_maintenance_window_start_date" {
-  description = "Date when maintenance window will start"
+  type = string
+
+  description = "Date when maintenance window will start, 'yyyy-mm-dd'."
   default     = null
 }
