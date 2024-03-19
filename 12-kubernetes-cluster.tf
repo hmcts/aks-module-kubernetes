@@ -133,13 +133,13 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   dynamic "maintenance_window_node_os" {
     for_each = var.enable_node_os_channel_upgrade_nodeimage == true ? [1] : []
     content {
-      duration   = var.node_os_maintenance_window_duration
-      frequency  = var.node_os_maintenance_window_frequency
-      day_of_week = var.node_os_maintenance_window_frequency == "Weekly" ? var.node_os_maintenance_window_day_of_week : null
-      interval   = var.node_os_maintenance_window_interval
-      start_time = var.node_os_maintenance_window_start_time
-      utc_offset = var.node_os_maintenance_window_utc_offset
-      start_date = var.node_os_maintenance_window_start_date
+      frequency   = var.node_os_maintenance_window_config.frequency
+      interval    = var.node_os_maintenance_window_config.interval
+      duration    = var.node_os_maintenance_window_config.duration
+      day_of_week = var.node_os_maintenance_window_config.frequency
+      start_time  = var.node_os_maintenance_window_config.start_time
+      utc_offset  = var.node_os_maintenance_window_config.utc_offset
+      start_date  = var.node_os_maintenance_window_config.start_date
     }
   }
 }

@@ -97,71 +97,88 @@ variable "azure_policy_enabled" {
   default     = false
 }
 
-variable "node_os_maintenance_window_duration" {
-  type = number
+# variable "node_os_maintenance_window_duration" {
+#   type = number
 
-  description = "Duration of maintenance window in hours"
-  default     = 4
+#   description = "Duration of maintenance window in hours"
+#   default     = 4
+
+#   validation {
+#     condition     = var.node_os_maintenance_window_duration >= 4
+#     error_message = "Maintenance window duration must be at least 4 hours when node_os_channel_upgrade is enabled."
+#   }
+# }
+
+# variable "node_os_maintenance_window_frequency" {
+#   type = string
+
+#   description = "Frequency of maintenance window, Daily or Weekly"
+#   default     = "Daily"
+
+#   validation {
+#     condition     = var.node_os_maintenance_window_frequency == "Daily" || var.node_os_maintenance_window_frequency == "Weekly"
+#     error_message = "Maintenance window frequency must be set to 'Daily' or 'Weekly'."
+#   }
+# }
+
+# variable "node_os_maintenance_window_interval" {
+#   type = number
+
+#   description = "The interval for maintenance runs"
+#   default     = 1
+
+#   validation {
+#     condition     = var.node_os_maintenance_window_interval >= 1
+#     error_message = "Maintenance window interval must be at least 1."
+#   }
+# }
+
+# variable "node_os_maintenance_window_day_of_week" {
+#   type = string
+
+#   description = "The day of the week for the maintenance run. Required in combination with weekly frequency."
+#   default     = null
+
+#   validation {
+#     condition     = contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_day_of_week)
+#     error_message = "Invalid day_of_week. Please choose from Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, ."
+#   }
+# }
+
+# variable "node_os_maintenance_window_start_time" {
+#   type = string
+
+#   description = "Start time of maintenance run 24hr format 'HH:mm' eg '16:30'."
+#   default     = null
+# }
+
+# variable "node_os_maintenance_window_utc_offset" {
+#   type = string
+
+#   description = "Used to adjust time zome of start time 24hr format, '+/-HH:mm' eg '+01:00'."
+#   default     = null
+# }
+
+# variable "node_os_maintenance_window_start_date" {
+#   type = string
+
+#   description = "Date when maintenance window will start, 'yyyy-mm-dd'."
+#   default     = null
+# }
+
+variable "node_os_maintenance_window_config" {
+  type = object({
+    frequency   = required(string, "Weekly")
+    interval    = required(number, 1)
+    duration    = required(number, 4)
+    day_of_week = optional(string, "Monday")
+    start_time  = optional(string, "01:00")
+    utc_offset  = optional(string, "+00:00")
+    start_date  = optional(string, null)
+  })
 
   validation {
-    condition     = var.node_os_maintenance_window_duration >= 4
+    condition     = var.node_os_maintenance_window_config.duration >= 4
     error_message = "Maintenance window duration must be at least 4 hours when node_os_channel_upgrade is enabled."
   }
-}
-
-variable "node_os_maintenance_window_frequency" {
-  type = string
-
-  description = "Frequency of maintenance window, Daily or Weekly"
-  default     = "Daily"
-
-  validation {
-    condition     = var.node_os_maintenance_window_frequency == "Daily" || var.node_os_maintenance_window_frequency == "Weekly"
-    error_message = "Maintenance window frequency must be set to 'Daily' or 'Weekly'."
-  }
-}
-
-variable "node_os_maintenance_window_interval" {
-  type = number
-
-  description = "The interval for maintenance runs"
-  default     = 1
-
-  validation {
-    condition     = var.node_os_maintenance_window_interval >= 1
-    error_message = "Maintenance window interval must be at least 1."
-  }
-}
-
-variable "node_os_maintenance_window_day_of_week" {
-  type = string
-
-  description = "The day of the week for the maintenance run. Required in combination with weekly frequency."
-  default = null
-
-    validation {
-    condition     = contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_day_of_week)
-    error_message = "Invalid day_of_week. Please choose from Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, ."
-  }
-}
-
-variable "node_os_maintenance_window_start_time" {
-  type = string
-
-  description = "Start time of maintenance run 24hr format 'HH:mm' eg '16:30'."
-  default     = null
-}
-
-variable "node_os_maintenance_window_utc_offset" {
-  type = string
-
-  description = "Used to adjust time zome of start time 24hr format, '+/-HH:mm' eg '+01:00'."
-  default     = null
-}
-
-variable "node_os_maintenance_window_start_date" {
-  type = string
-
-  description = "Date when maintenance window will start, 'yyyy-mm-dd'."
-  default     = null
 }
