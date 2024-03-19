@@ -140,7 +140,7 @@ variable "node_os_maintenance_window_day_of_week" {
   default = null
 
     validation {
-    condition     = var.node_os_maintenance_window_frequency == "Weekly" && contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.day_of_week)
+    condition     = contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_day_of_week)
     error_message = "Invalid day_of_week. Please choose from Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, ."
   }
 }
