@@ -108,12 +108,13 @@ variable "node_os_maintenance_window_config" {
     start_date  = optional(string)
   })
   default = {
-    frequency  = "Daily"
-    interval   = 1
-    duration   = 4
-    start_date = null
-    utc_offset = null
-    start_date = null
+    frequency   = "Weekly"
+    interval    = 1
+    duration    = 4
+    day_of_week = "Monday"
+    start_time  = "01:00"
+    utc_offset  = "+00:00"
+    start_date  = null
   }
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
