@@ -99,17 +99,23 @@ variable "azure_policy_enabled" {
 
 variable "node_os_maintenance_window_config" {
   type = object({
-    frequency   = optional(string, "Weekly")
+    frequency   = string
     interval    = number
     duration    = number
-    day_of_week = optional(string, "Monday")
-    start_time  = optional(string, "01:00")
-    utc_offset  = optional(string, "+00:00")
-    start_date  = optional(string, null)
+    day_of_week = optional(string)
+    start_time  = optional(string)
+    utc_offset  = optional(string)
+    start_date  = optional(string)
   })
-  # default = {
-
-  # }
+    default = {
+    frequency   = "Weekly"
+    interval    = 1
+    duration    = 4
+    day_of_week = "Monday"
+    start_time  = "01:00"
+    utc_offset  = "+00:00"
+    start_date  = null
+  }
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
     error_message = "Maintenance window duration must be at least 4 hours when node_os_channel_upgrade is enabled."
