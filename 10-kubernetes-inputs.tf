@@ -131,12 +131,12 @@ variable "node_os_maintenance_window_config" {
     error_message = "Maintenance window interval must be at least 1."
   }
   validation {
-    condition     = var.node_os_maintenance_window_config.frequency != "Weekly" || ((try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false)))
+    condition     = var.node_os_maintenance_window_config.frequency == "Weekly" && ((try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false)))
     error_message = "Invalid day_of_week. Please choose from Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday."
   }
 
 validation {
-    condition     = var.node_os_maintenance_window_config.frequency != "Daily" || (var.node_os_maintenance_window_config.day_of_week == null)
+    condition     = var.node_os_maintenance_window_config.frequency == "Daily" && (var.node_os_maintenance_window_config.day_of_week == null)
     error_message = "Invalid day_of_week must not be set for 'Daily' frequency."
   }
 }
