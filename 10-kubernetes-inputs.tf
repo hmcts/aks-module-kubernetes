@@ -107,7 +107,9 @@ variable "node_os_maintenance_window_config" {
     utc_offset  = optional(string, "+00:00")
     start_date  = optional(string, null)
   })
-  default = {}
+  # default = {
+
+  # }
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
     error_message = "Maintenance window duration must be at least 4 hours when node_os_channel_upgrade is enabled."
