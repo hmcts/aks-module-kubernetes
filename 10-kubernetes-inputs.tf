@@ -122,7 +122,7 @@ variable "node_os_maintenance_window_config" {
   }
 
   validation {
-    condition     = var.node_os_maintenance_window_config.frequency == "Daily" || var.node_os_maintenance_window_config.frequency == "Weekly"
+    condition     = try(contains(["Daily", "Weekly"], var.node_os_maintenance_window_config.frequency), false)
     error_message = "Maintenance window frequency must be set to 'Daily' or 'Weekly'."
   }
 
