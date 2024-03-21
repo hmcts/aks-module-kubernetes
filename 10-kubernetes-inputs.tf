@@ -1,6 +1,3 @@
-locals {
-  days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-}
 variable "kubernetes_cluster_load_balancer_sku" {
   default = "standard"
 }
