@@ -1,3 +1,6 @@
+locals {
+  days_of_week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+}
 variable "kubernetes_cluster_load_balancer_sku" {
   default = "standard"
 }
@@ -112,7 +115,7 @@ variable "node_os_maintenance_window_config" {
     interval    = 1
     duration    = 4
     day_of_week = "Monday"
-    start_time  = "01:00"
+    start_time  = "18:00"
     utc_offset  = "+00:00"
     start_date  = null
   }
@@ -132,13 +135,11 @@ variable "node_os_maintenance_window_config" {
     error_message = "Maintenance window interval must be at least 1."
   }
 
+  # If Daily is set it must not have day of week. If Weekly is set it must have a day of week set.
   validation {
-    condition     = var.node_os_maintenance_window_config.frequency == "Daily" || try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false)
-    error_message = "Invalid day_of_week. Please choose from Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday."
-  }
-
-  validation {
-    condition     = var.node_os_maintenance_window_config.frequency != "Daily" || var.node_os_maintenance_window_config.day_of_week == null
-    error_message = "Invalid day_of_week must not be set for 'Daily' frequency."
+    condition     = (
+      var.node_os_maintenance_window_config.frequency == "Daily" && var.node_os_maintenance_window_config.day_of_week == null ) || ( 
+        var.node_os_maintenance_window_config.frequency == "Weekly" && try(contains(local.days_of_week, var.node_os_maintenance_window_config.day_of_week), false))
+    error_message = var.node_os_maintenance_window_config.frequency == "Daily" ? "'day_of_week' must not be set for 'Daily' frequency." : "Invalid 'day_of_week', please choose a day of the week."
   }
 }
