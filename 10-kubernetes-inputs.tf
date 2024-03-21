@@ -136,7 +136,7 @@ variable "node_os_maintenance_window_config" {
   }
 
   validation {
-    condition     = var.node_os_maintenance_window_config.frequency == "Daily" && var.node_os_maintenance_window_config.day_of_week == null
+    condition     = var.node_os_maintenance_window_config.frequency == "Daily" && var.node_os_maintenance_window_config.day_of_week != null
     error_message = "Invalid day_of_week must not be set for 'Daily' frequency."
   }
 }
