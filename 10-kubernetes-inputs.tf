@@ -116,6 +116,7 @@ variable "node_os_maintenance_window_config" {
     utc_offset  = "+00:00"
     start_date  = null
   }
+
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
     error_message = "Maintenance window duration must be at least 4 hours when node_os_channel_upgrade is enabled."
@@ -130,8 +131,9 @@ variable "node_os_maintenance_window_config" {
     condition     = var.node_os_maintenance_window_config.interval >= 1
     error_message = "Maintenance window interval must be at least 1."
   }
+
   validation {
-    condition     = var.node_os_maintenance_window_config.frequency != "Weekly" || try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false)
+    condition     = var.node_os_maintenance_window_config.frequency == "Daily" || try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false)
     error_message = "Invalid day_of_week. Please choose from Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday."
   }
 
