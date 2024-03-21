@@ -137,9 +137,9 @@ variable "node_os_maintenance_window_config" {
 
   # If Daily is set it must not have day of week. If Weekly is set it must have a day of week set.
   validation {
-    condition     = (
-      var.node_os_maintenance_window_config.frequency == "Daily" && var.node_os_maintenance_window_config.day_of_week == null ) || ( 
-        var.node_os_maintenance_window_config.frequency == "Weekly" && try(contains(local.days_of_week, var.node_os_maintenance_window_config.day_of_week), false))
+    condition = (
+      var.node_os_maintenance_window_config.frequency == "Daily" && var.node_os_maintenance_window_config.day_of_week == null) || (
+    var.node_os_maintenance_window_config.frequency == "Weekly" && try(contains(local.days_of_week, var.node_os_maintenance_window_config.day_of_week), false))
     error_message = var.node_os_maintenance_window_config.frequency == "Daily" ? "'day_of_week' must not be set for 'Daily' frequency." : "Invalid 'day_of_week', please choose a day of the week."
   }
 }
