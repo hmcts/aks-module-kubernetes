@@ -99,23 +99,15 @@ variable "azure_policy_enabled" {
 
 variable "node_os_maintenance_window_config" {
   type = object({
-    frequency   = string
-    interval    = number
-    duration    = number
-    day_of_week = optional(string)
-    start_time  = optional(string)
-    utc_offset  = optional(string)
-    start_date  = optional(string)
+    frequency   = optional(string, "Weekly")
+    interval    = optional(number, 1)
+    duration    = optional(number, 4)
+    day_of_week = optional(string, "Monday")
+    start_time  = optional(string, "18:00")
+    utc_offset  = optional(string, "+00:00")
+    start_date  = optional(string, null)
   })
-  default = {
-    frequency   = "Weekly"
-    interval    = 1
-    duration    = 4
-    day_of_week = "Monday"
-    start_time  = "18:00"
-    utc_offset  = "+00:00"
-    start_date  = null
-  }
+  default = {}
 
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
@@ -132,12 +124,8 @@ variable "node_os_maintenance_window_config" {
     error_message = "Maintenance window interval must be at least 1."
   }
 
-  # If Daily is set it must not have day of week. If Weekly is set it must have a day of week set.
   validation {
-    condition = (
-      var.node_os_maintenance_window_config.frequency == "Daily" && var.node_os_maintenance_window_config.day_of_week == null) || (
-      var.node_os_maintenance_window_config.frequency == "Weekly" &&
-      try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false))
-    error_message = var.node_os_maintenance_window_config.frequency == "Daily" ? "'day_of_week' must not be set for 'Daily' frequency." : "Invalid 'day_of_week', please choose a day of the week."
+    condition = var.node_os_maintenance_window_config.frequency == "Weekly" ? try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false) : true
+    error_message = "Invalid 'day_of_week', please choose a day of the week."
   }
 }
