@@ -112,8 +112,8 @@ variable "node_os_maintenance_window_config" {
 
   validation {
     condition = var.node_os_maintenance_window_config.is_prod ? (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) >= 23
-    ) || (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) <= 6) : true
-    error_message = "Invalid 'start_time' Prod Use must only start between 23:00 - 06:00"
+    ) || (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) <= 2) : true
+    error_message = "Invalid 'start_time' Prod Use must only start between 23:00 - 02:00"
   }
 
   validation {
