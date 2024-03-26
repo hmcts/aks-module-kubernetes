@@ -106,8 +106,16 @@ variable "node_os_maintenance_window_config" {
     start_time  = optional(string, "16:00")
     utc_offset  = optional(string, "+00:00")
     start_date  = optional(string, null)
+    is_prod     = false
   })
-  default = {}
+  default = {
+    is_prod = contains(["sbox"], var.environment) ? true : false
+  }
+
+  validation {
+    condition = var.node_os_maintenance_window_config.is_prod != true
+    error_message = "is_prod is set to true"
+  }
 
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
