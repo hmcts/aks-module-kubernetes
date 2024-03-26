@@ -111,8 +111,9 @@ variable "node_os_maintenance_window_config" {
   default = {}
 
   validation {
-    condition = var.node_os_maintenance_window_config.is_prod != true
-    error_message = "is_prod is set to true"
+    condition = var.node_os_maintenance_window_config.is_prod == true && (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) >= 23
+    ) || (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) <= 6)
+    error_message = "Invalid 'start_time' must only start between 23:00 - 06:00"
   }
 
   validation {
