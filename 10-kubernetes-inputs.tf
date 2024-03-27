@@ -103,11 +103,18 @@ variable "node_os_maintenance_window_config" {
     interval    = optional(number, 1)
     duration    = optional(number, 4)
     day_of_week = optional(string, "Monday")
-    start_time  = optional(string, "16:00")
+    start_time  = optional(string, "23:00")
     utc_offset  = optional(string, "+00:00")
     start_date  = optional(string, null)
+    is_prod     = optional(bool, true)
   })
   default = {}
+
+  validation {
+    condition = var.node_os_maintenance_window_config.is_prod ? (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) >= 23
+    ) || (tonumber(substr(var.node_os_maintenance_window_config.start_time, 0, 2)) <= 2) : true
+    error_message = "Invalid 'start_time' Prod Use must only start between 23:00 - 02:00"
+  }
 
   validation {
     condition     = var.node_os_maintenance_window_config.duration >= 4
@@ -125,7 +132,7 @@ variable "node_os_maintenance_window_config" {
   }
 
   validation {
-    condition = var.node_os_maintenance_window_config.frequency == "Weekly" ? try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false) : true
+    condition     = var.node_os_maintenance_window_config.frequency == "Weekly" ? try(contains(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], var.node_os_maintenance_window_config.day_of_week), false) : true
     error_message = "Invalid 'day_of_week', please choose a day of the week."
   }
 }
