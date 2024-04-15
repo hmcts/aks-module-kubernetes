@@ -191,6 +191,12 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
       max_surge = var.upgrade_max_surge
     }
   }
+  dynamic "windows_profile" {
+    for_each = each.value.name == "msnode" ? [1] : []
+    content {
+      outbound_nat_enabled = lookup(each.value, "outbound_nat_enabled", true)
+    }
+  }
   timeouts {
     update = "180m"
   }
