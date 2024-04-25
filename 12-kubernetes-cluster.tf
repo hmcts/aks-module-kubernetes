@@ -35,6 +35,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   node_resource_group = local.node_resource_group
 
+
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
   azure_policy_enabled      = var.azure_policy_enabled
@@ -55,6 +56,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     orchestrator_version         = var.kubernetes_cluster_version
     tags                         = var.tags
     zones                        = var.availability_zones
+
+    upgrade_settings {
+      max_surge = var.upgrade_max_surge
+    }
+
   }
 
   dns_prefix = format("k8s-%s-%s-%s",
