@@ -99,7 +99,7 @@ variable "azure_policy_enabled" {
 
 variable "os_sku" {
   description = "Use this OS SKU if the the OS Type for the Node Pool is specified as Linux"
-  default     = AzureLinux
+  default     = "Ubuntu"
 }
 
 variable "node_os_maintenance_window_config" {
