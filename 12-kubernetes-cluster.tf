@@ -183,8 +183,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   max_count             = each.value.max_count
   max_pods              = lookup(each.value, "max_pods", "30")
   os_type               = lookup(each.value, "os_type", "Linux")
-  # A temporary change to set the os_sku as "AzureLinux" for sbox environments only
-  os_sku                = var.environment == "sbox" && lookup(each.value, "os_type", "Linux") == "Linux" ? var.os_sku : null
+  # A temporary change to set the os_sku as "AzureLinux" for the new azurelinux node pool only
+  os_sku                = each.value.name == "azurelinux" ? try(each.value.os_sku, "AzureLinux") : null
   os_disk_type          = "Ephemeral"
   eviction_policy       = each.value.name == "spotinstance" ? try(each.value.eviction_policy, "Delete") : null
   node_taints           = each.value.node_taints
