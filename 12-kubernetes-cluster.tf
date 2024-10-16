@@ -182,6 +182,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   min_count             = each.value.min_count
   max_count             = each.value.max_count
   max_pods              = lookup(each.value, "max_pods", "30")
+  os_disk_size_gb       = var.k8s_additional_agent_os_disk_size
   os_type               = lookup(each.value, "os_type", "Linux")
   # A temporary change to set the os_sku as "AzureLinux" for the new azurelinux node pool only
   os_sku                = each.value.name == "azurelinux" ? try(each.value.os_sku, "AzureLinux") : null
