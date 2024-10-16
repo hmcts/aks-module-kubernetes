@@ -74,7 +74,7 @@ variable "additional_node_pools" {
 }
 
 variable "k8s_additional_agent_os_disk_size" {
-  default = "75"
+  default = "128"
   description = "Size disk used: GiB"
 }
 
