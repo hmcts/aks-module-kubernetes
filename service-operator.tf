@@ -12,6 +12,6 @@ resource "azapi_resource" "service_operator_credential" {
     }
   })
   lifecycle {
-    ignore_changes = [location]
+    ignore_changes = [location, removing_special_chars]
   }
 }
