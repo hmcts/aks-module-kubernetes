@@ -4,6 +4,7 @@ terraform {
     azurerm = {
       source                = "hashicorp/azurerm"
       configuration_aliases = [azurerm.hmcts-control, azurerm.acr, azurerm.global_acr]
+      version               = "4.0"
     }
     azapi = {
       source  = "Azure/azapi"
@@ -11,3 +12,18 @@ terraform {
     }
   }
 }
+
+provider "azurerm" {
+  alias = "global_acr"
+}
+
+provider "azurerm" {
+  alias = "hmcts-control"
+  # Include any necessary authentication details if required
+}
+
+provider "azurerm" {
+  alias = "acr"
+  # Include any necessary authentication details if required
+}
+
