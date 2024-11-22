@@ -34,6 +34,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
   )
 
   node_resource_group = local.node_resource_group
+  image_cleaner_enabled = var.image_cleaner_enabled
+  image_cleaner_interval_hours = var.interval_cleaner_hours
+  cost_analysis_enabled = var.cost_analysis_enabled
 
 
   oidc_issuer_enabled       = true
@@ -59,6 +62,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
     upgrade_settings {
       max_surge = var.upgrade_max_surge
+      drain_timeout_in_minutes = var.drain_timeout_time
+      node_soak_duration_in_minutes = var.node_soak_time
     }
 
   }
@@ -189,6 +194,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   node_taints           = each.value.node_taints
   orchestrator_version  = var.kubernetes_cluster_version
   vnet_subnet_id        = data.azurerm_subnet.aks.id
+  node_public_ip_enabled = var.node_public_ip_enabled
+  fips_enabled = var.fips_enabled
+  host_encryption_enabled = var.host_encryption_enabled
   tags                  = var.tags
   zones                 = var.availability_zones
 
@@ -196,6 +204,8 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
     for_each = each.value.name != "spotinstance" ? [1] : []
     content {
       max_surge = var.upgrade_max_surge
+      drain_timeout_in_minutes = var.drain_timeout_time
+      node_soak_duration_in_minutes = var.node_soak_time
     }
   }
   dynamic "windows_profile" {
