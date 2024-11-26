@@ -101,7 +101,7 @@ variable "node_soak_time" {
 }
 
 variable "image_cleaner_enabled" {
-  default = true
+  default = false
 }
 
 variable "interval_cleaner_hours" {

@@ -35,7 +35,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   node_resource_group = local.node_resource_group
   image_cleaner_enabled = var.image_cleaner_enabled
-  image_cleaner_interval_hours = var.interval_cleaner_hours
   cost_analysis_enabled = var.cost_analysis_enabled
 
 
@@ -214,7 +213,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
       windows_profile,
     ]
   }
-  
+
   dynamic "windows_profile" {
     for_each = each.value.name == "msnode" ? [1] : []
     content {
