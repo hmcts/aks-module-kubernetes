@@ -208,6 +208,13 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
       node_soak_duration_in_minutes = var.node_soak_time
     }
   }
+
+    lifecycle {
+    ignore_changes = [
+      windows_profile,
+    ]
+  }
+  
   dynamic "windows_profile" {
     for_each = each.value.name == "msnode" ? [1] : []
     content {
