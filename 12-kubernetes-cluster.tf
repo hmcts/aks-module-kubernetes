@@ -184,14 +184,15 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   max_pods              = lookup(each.value, "max_pods", "30")
   os_type               = lookup(each.value, "os_type", "Linux")
   # A temporary change to set the os_sku as "AzureLinux" for the new azurelinux node pool only
-  os_sku                = each.value.name == "azurelinux" ? try(each.value.os_sku, "AzureLinux") : null
-  os_disk_type          = "Ephemeral"
-  eviction_policy       = each.value.name == "spotinstance" ? try(each.value.eviction_policy, "Delete") : null
-  node_taints           = each.value.node_taints
-  orchestrator_version  = var.kubernetes_cluster_version
-  vnet_subnet_id        = data.azurerm_subnet.aks.id
-  tags                  = var.tags
-  zones                 = var.availability_zones
+  # Allowing os_sku to be set via variable for Windows node pools as well - 2019 is deprecated on AKS 1.33+
+  os_sku               = each.value.name == "azurelinux" ? try(each.value.os_sku, "AzureLinux") : each.value.name == "windows" ? try(each.value.os_sku, null) : null
+  os_disk_type         = "Ephemeral"
+  eviction_policy      = each.value.name == "spotinstance" ? try(each.value.eviction_policy, "Delete") : null
+  node_taints          = each.value.node_taints
+  orchestrator_version = var.kubernetes_cluster_version
+  vnet_subnet_id       = data.azurerm_subnet.aks.id
+  tags                 = var.tags
+  zones                = var.availability_zones
 
   dynamic "upgrade_settings" {
     for_each = each.value.name != "spotinstance" ? [1] : []
