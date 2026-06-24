@@ -91,6 +91,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     for_each = var.oms_agent_enabled != false ? [1] : []
     content {
       log_analytics_workspace_id = var.log_workspace_id
+      // Legacy auth for Log Analytics workspace has been retired.
+      msi_auth_for_monitoring_enabled = true
     }
   }
 
