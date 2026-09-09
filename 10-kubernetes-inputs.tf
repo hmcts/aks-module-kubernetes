@@ -124,6 +124,10 @@ variable "cost_analysis_enabled" {
   default = true
 }
 
+variable "run_command_enabled" {
+  default = false
+}
+
 variable "azure_policy_enabled" {
   description = "Enable the Azure Policy addon"
   default     = true
