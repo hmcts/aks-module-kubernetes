@@ -33,10 +33,11 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
-  node_resource_group   = local.node_resource_group
-  image_cleaner_enabled = var.image_cleaner_enabled
-  cost_analysis_enabled = var.cost_analysis_enabled
-
+  node_resource_group    = local.node_resource_group
+  image_cleaner_enabled  = var.image_cleaner_enabled
+  cost_analysis_enabled  = var.cost_analysis_enabled
+  run_command_enabled    = var.run_command_enabled
+  local_account_disabled = var.local_account_disabled
 
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
