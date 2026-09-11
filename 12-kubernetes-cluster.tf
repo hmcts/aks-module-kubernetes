@@ -98,11 +98,14 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   kubernetes_version = var.kubernetes_cluster_version
 
-  linux_profile {
-    admin_username = var.kubernetes_cluster_admin_username
+  dynamic "linux_profile" {
+    for_each = var.linux_profile_enabled != false ? [1] : []
+    content {
+      admin_username = var.kubernetes_cluster_admin_username
 
-    ssh_key {
-      key_data = var.kubernetes_cluster_ssh_key
+      ssh_key {
+        key_data = var.kubernetes_cluster_ssh_key
+      }
     }
   }
 
