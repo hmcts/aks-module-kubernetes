@@ -66,6 +66,12 @@ variable "kubernetes_cluster_admin_username" {
   default = "k8sadmin"
 }
 
+variable "linux_profile_enabled" {
+  description = "Controls whether the AKS Linux profile and SSH access are enabled"
+  type        = bool
+  default     = true
+}
+
 // TODO read this from vault
 variable "kubernetes_cluster_ssh_key" {}
 
