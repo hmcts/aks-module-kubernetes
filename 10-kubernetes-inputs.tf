@@ -92,9 +92,41 @@ variable "upgrade_max_surge" {
   default     = "33%"
 }
 
+variable "drain_timeout_time" {
+  default = 0
+}
+
+variable "node_soak_time" {
+  default = 0
+}
+
+variable "image_cleaner_enabled" {
+  default = false
+}
+
+variable "interval_cleaner_hours" {
+  default = 48
+}
+
+variable "node_public_ip_enabled" {
+  default = false
+}
+
+variable "fips_enabled" {
+  default = false
+}
+
+variable "host_encryption_enabled" {
+  default = false
+}
+
+variable "cost_analysis_enabled" {
+  default = true
+}
+
 variable "azure_policy_enabled" {
   description = "Enable the Azure Policy addon"
-  default     = false
+  default     = true
 }
 
 variable "node_os_maintenance_window_config" {

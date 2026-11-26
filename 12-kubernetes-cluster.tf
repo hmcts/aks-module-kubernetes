@@ -33,7 +33,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     var.service_shortname
   )
 
-  node_resource_group = local.node_resource_group
+  node_resource_group   = local.node_resource_group
+  image_cleaner_enabled = var.image_cleaner_enabled
+  cost_analysis_enabled = var.cost_analysis_enabled
 
 
   oidc_issuer_enabled       = true
@@ -45,7 +47,7 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     name                         = var.enable_user_system_nodepool_split == true ? "system" : "nodepool"
     only_critical_addons_enabled = var.enable_user_system_nodepool_split == true ? true : false
     vm_size                      = var.kubernetes_cluster_agent_vm_size
-    enable_auto_scaling          = var.kubernetes_cluster_enable_auto_scaling
+    auto_scaling_enabled         = var.kubernetes_cluster_enable_auto_scaling
     max_pods                     = var.kubernetes_cluster_agent_max_pods
     os_disk_size_gb              = var.kubernetes_cluster_agent_os_disk_size
     type                         = var.kubernetes_cluster_agent_type
@@ -58,7 +60,9 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     zones                        = var.availability_zones
 
     upgrade_settings {
-      max_surge = var.upgrade_max_surge
+      max_surge                     = var.upgrade_max_surge
+      drain_timeout_in_minutes      = var.drain_timeout_time
+      node_soak_duration_in_minutes = var.node_soak_time
     }
 
   }
@@ -87,6 +91,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     for_each = var.oms_agent_enabled != false ? [1] : []
     content {
       log_analytics_workspace_id = var.log_workspace_id
+      // Legacy auth for Log Analytics workspace has been retired.
+      msi_auth_for_monitoring_enabled = true
     }
   }
 
@@ -107,7 +113,6 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
 
   azure_active_directory_role_based_access_control {
     azure_rbac_enabled     = false
-    managed                = true
     admin_group_object_ids = [var.global_aks_admins_group_object_id, data.azurerm_key_vault_secret.aks_admin_group_id.value]
   }
 
@@ -133,8 +138,8 @@ resource "azurerm_kubernetes_cluster" "kubernetes_cluster" {
     }
   }
 
-  automatic_channel_upgrade = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
-  node_os_channel_upgrade   = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
+  automatic_upgrade_channel = var.enable_automatic_channel_upgrade_patch == true ? "patch" : null
+  node_os_upgrade_channel   = var.enable_node_os_channel_upgrade_nodeimage == true ? "NodeImage" : null
 
   dynamic "maintenance_window_node_os" {
     for_each = var.enable_node_os_channel_upgrade_nodeimage == true ? [1] : []
@@ -175,7 +180,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   name                  = each.value.name
   kubernetes_cluster_id = azurerm_kubernetes_cluster.kubernetes_cluster.id
   vm_size               = lookup(each.value, "vm_size", var.kubernetes_cluster_agent_vm_size)
-  enable_auto_scaling   = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
+  auto_scaling_enabled  = lookup(each.value, "enable_auto_scaling", var.kubernetes_cluster_enable_auto_scaling)
   mode                  = lookup(each.value, "mode", "User")
   priority              = lookup(each.value, "priority", "Regular")
   spot_max_price        = lookup(each.value, "spot_max_price", "-1")
@@ -184,21 +189,34 @@ resource "azurerm_kubernetes_cluster_node_pool" "additional_node_pools" {
   max_pods              = lookup(each.value, "max_pods", "30")
   os_type               = lookup(each.value, "os_type", "Linux")
   # A temporary change to set the os_sku as "AzureLinux" for the new azurelinux node pool only
-  os_sku                = each.value.name == "azurelinux" ? try(each.value.os_sku, "AzureLinux") : null
-  os_disk_type          = "Ephemeral"
-  eviction_policy       = each.value.name == "spotinstance" ? try(each.value.eviction_policy, "Delete") : null
-  node_taints           = each.value.node_taints
-  orchestrator_version  = var.kubernetes_cluster_version
-  vnet_subnet_id        = data.azurerm_subnet.aks.id
-  tags                  = var.tags
-  zones                 = var.availability_zones
+  # Allowing os_sku to be set via variable for Windows node pools as well - 2019 is deprecated on AKS 1.33+
+  os_sku                  = each.value.name == "azurelinux" ? try(each.value.os_sku, "AzureLinux") : each.value.name == "msnode" ? try(each.value.os_sku, null) : null
+  os_disk_type            = "Ephemeral"
+  eviction_policy         = each.value.name == "spotinstance" ? try(each.value.eviction_policy, "Delete") : null
+  node_taints             = each.value.node_taints
+  orchestrator_version    = var.kubernetes_cluster_version
+  vnet_subnet_id          = data.azurerm_subnet.aks.id
+  node_public_ip_enabled  = var.node_public_ip_enabled
+  fips_enabled            = var.fips_enabled
+  host_encryption_enabled = var.host_encryption_enabled
+  tags                    = var.tags
+  zones                   = var.availability_zones
 
   dynamic "upgrade_settings" {
     for_each = each.value.name != "spotinstance" ? [1] : []
     content {
-      max_surge = var.upgrade_max_surge
+      max_surge                     = var.upgrade_max_surge
+      drain_timeout_in_minutes      = var.drain_timeout_time
+      node_soak_duration_in_minutes = var.node_soak_time
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      windows_profile,
+    ]
+  }
+
   dynamic "windows_profile" {
     for_each = each.value.name == "msnode" ? [1] : []
     content {
